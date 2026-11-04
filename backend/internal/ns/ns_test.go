@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 )
@@ -30,8 +32,42 @@ func TestParseVehicles(t *testing.T) {
 	if ic.Number() != "3045" || ic.Lat != 52.0894 || ic.Lng != 5.1101 || ic.SpeedKmh != 87.5 || ic.HeadingDeg != 42 || ic.Type != "IC" || ic.Source != "OBIS" {
 		t.Errorf("unexpected first vehicle: %+v", ic)
 	}
+	if ic.AccuracyM != nil {
+		t.Errorf("negative accuracy should be dropped, got %v", *ic.AccuracyM)
+	}
 	if got[1].Number() != "7423" {
 		t.Errorf("string train number not parsed: %+v", got[1])
+	}
+}
+
+func TestParseVehiclesAccuracy(t *testing.T) {
+	got, err := ParseVehicles([]byte(`{"treinen":[{"ritId":"800","lat":51.4,"lng":5.4,"horizontaleNauwkeurigheid":194.4}]}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got) != 1 || got[0].AccuracyM == nil || *got[0].AccuracyM != 194.4 {
+		t.Fatalf("unexpected: %+v", got)
+	}
+}
+
+// TestParseRecordedVehicles runs the parser on a real recording from cmd/nsrecord when one is
+// present locally (backend/data is gitignored, so CI skips this).
+func TestParseRecordedVehicles(t *testing.T) {
+	body, err := os.ReadFile(filepath.Join("..", "..", "data", "ns", "vehicles.json"))
+	if err != nil {
+		t.Skip("no local recording in backend/data/ns")
+	}
+	got, err := ParseVehicles(body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(got) < 50 {
+		t.Fatalf("parsed only %d vehicles from a real recording", len(got))
+	}
+	for _, v := range got {
+		if v.Number() == "" || v.Lat < 49 || v.Lat > 55 || v.Lng < 2 || v.Lng > 11 {
+			t.Errorf("implausible vehicle: %+v", v)
+		}
 	}
 }
 

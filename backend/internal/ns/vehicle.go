@@ -19,6 +19,9 @@ type Vehicle struct {
 	HeadingDeg  float64 `json:"richting"`
 	Type        string  `json:"type"`
 	Source      string  `json:"bron"`
+	// AccuracyM is horizontaleNauwkeurigheid, kept for analysis only: older reports call it
+	// nonsense, but the 2026-11-04 recording held plausible values. Nil when absent or invalid.
+	AccuracyM *float64 `json:"horizontaleNauwkeurigheid,omitempty"`
 }
 
 // Number is the train number (ritnummer) used by the other NS endpoints.
@@ -36,13 +39,13 @@ type rawVehicle struct {
 	Lng         *float64   `json:"lng"`
 	Speed       *float64   `json:"snelheid"`
 	Heading     *float64   `json:"richting"`
+	Accuracy    *float64   `json:"horizontaleNauwkeurigheid"`
 	Type        string     `json:"type"`
 	Source      string     `json:"bron"`
 }
 
 // ParseVehicles reads the vehicle list, either wrapped as {"payload":{"treinen":[...]}} or as
 // {"treinen":[...]}. Entries without a usable position or train number are dropped.
-// horizontaleNauwkeurigheid is ignored on purpose: it is known to hold nonsense values.
 func ParseVehicles(body []byte) ([]Vehicle, error) {
 	var doc struct {
 		Payload *struct {
@@ -78,6 +81,10 @@ func ParseVehicles(body []byte) ([]Vehicle, error) {
 		}
 		if r.Heading != nil && finite(*r.Heading) {
 			v.HeadingDeg = *r.Heading
+		}
+		if r.Accuracy != nil && finite(*r.Accuracy) && *r.Accuracy >= 0 {
+			a := *r.Accuracy
+			v.AccuracyM = &a
 		}
 		out = append(out, v)
 	}

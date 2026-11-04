@@ -1,7 +1,8 @@
-// Command nsrecord records real NS API responses into testdata, for parser tests and fixture
-// mode. It reads NS_API_KEY from the environment or from a .env file and never prints it.
+// Command nsrecord records real NS API responses into data/ns (gitignored), for parser tests
+// and fixture mode. It reads NS_API_KEY from the environment or from a .env file and never
+// prints it.
 //
-//	go run ./cmd/nsrecord -envfile ../.env [-train 3045] [-station UT] [-out testdata/ns]
+//	go run ./cmd/nsrecord -envfile ../.env [-train 3045] [-station UT] [-out data/ns]
 package main
 
 import (
@@ -17,7 +18,7 @@ import (
 
 func main() {
 	envPath := flag.String("envfile", "../.env", "file with NS_API_KEY=...")
-	out := flag.String("out", "testdata/ns", "output folder")
+	out := flag.String("out", "data/ns", "output folder (gitignored; NS data is not committed until the terms allow it)")
 	train := flag.String("train", "", "train number to record (default: a moving intercity from the vehicle list)")
 	station := flag.String("station", "UT", "station code for the departures recording")
 	flag.Parse()
