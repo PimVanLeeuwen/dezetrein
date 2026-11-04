@@ -1,0 +1,52 @@
+{
+  "recordedAt": "2026-11-04T15:15:20.476104Z",
+  "train": "2450",
+  "station": "UT",
+  "entries": [
+    {
+      "name": "vehicles",
+      "path": "/virtual-train-api/api/vehicle",
+      "status": 200,
+      "bytes": 53327,
+      "file": "vehicles.json"
+    },
+    {
+      "name": "journey",
+      "path": "/reisinformatie-api/api/v2/journey",
+      "query": "omitCrowdForecast=false\u0026train=2450",
+      "status": 200,
+      "bytes": 18046,
+      "file": "journey.json"
+    },
+    {
+      "name": "composition",
+      "path": "/virtual-train-api/api/v1/trein/2450",
+      "status": 200,
+      "bytes": 697,
+      "file": "composition.json"
+    },
+    {
+      "name": "crowding",
+      "path": "/virtual-train-api/api/v1/prognose/2450",
+      "status": 200,
+      "bytes": 537,
+      "file": "crowding.json"
+    },
+    {
+      "name": "disruptions",
+      "path": "/reisinformatie-api/api/v3/disruptions",
+      "query": "isActive=true",
+      "status": 200,
+      "bytes": 26713,
+      "file": "disruptions.json"
+    },
+    {
+      "name": "departures",
+      "path": "/reisinformatie-api/api/v2/departures",
+      "query": "station=UT",
+      "status": 200,
+      "bytes": 27734,
+      "file": "departures.json"
+    }
+  ]
+}

@@ -1,0 +1,1726 @@
+[
+  {
+    "id": "6068888",
+    "isActive": true,
+    "title": "Rotterdam - Breda.",
+    "topic": "disruption_6068888_nl",
+    "type": "DISRUPTION",
+    "registrationTime": "2026-11-04T15:50:29+0100",
+    "releaseTime": "2026-11-04T15:50:29+0100",
+    "local": false,
+    "titleSections": [
+      [
+        {
+          "type": "STATION",
+          "value": "Rotterdam C."
+        },
+        {
+          "type": "ICON",
+          "value": "DISRUPTION"
+        },
+        {
+          "type": "STATION",
+          "value": "Breda"
+        }
+      ]
+    ],
+    "start": "2026-11-04T14:53:00+0100",
+    "end": "2026-11-04T17:30:00+0100",
+    "phase": {
+      "id": "2",
+      "label": "Impact bekend"
+    },
+    "impact": {
+      "value": 3
+    },
+    "expectedDuration": {
+      "description": "Dit duurt tot ongeveer 17:30 uur.",
+      "endTime": "2026-11-04T17:30:00+0100"
+    },
+    "publicationSections": [
+      {
+        "section": {
+          "stations": [
+            {
+              "uicCode": "8400530",
+              "stationCode": "RTD",
+              "name": "Rotterdam Centraal",
+              "coordinate": {
+                "lat": 51.9249992370605,
+                "lng": 4.46888875961304
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400529",
+              "stationCode": "RTB",
+              "name": "Rotterdam Blaak",
+              "coordinate": {
+                "lat": 51.9202766418457,
+                "lng": 4.48888874053955
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400533",
+              "stationCode": "RTZ",
+              "name": "Rotterdam Zuid",
+              "coordinate": {
+                "lat": 51.9044456481934,
+                "lng": 4.51027774810791
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400542",
+              "stationCode": "RLB",
+              "name": "Rotterdam Lombardijen",
+              "coordinate": {
+                "lat": 51.8800010681152,
+                "lng": 4.53138875961304
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400132",
+              "stationCode": "BDPB",
+              "name": "Breda-Prinsenbeek",
+              "coordinate": {
+                "lat": 51.606388092041,
+                "lng": 4.72083330154419
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400131",
+              "stationCode": "BD",
+              "name": "Breda",
+              "coordinate": {
+                "lat": 51.5955543518066,
+                "lng": 4.78000020980835
+              },
+              "countryCode": "NL"
+            }
+          ],
+          "direction": "BOTH",
+          "operators": [
+            "NS International"
+          ]
+        },
+        "consequence": {
+          "section": {
+            "stations": [
+              {
+                "uicCode": "8400530",
+                "stationCode": "RTD",
+                "name": "Rotterdam Centraal",
+                "coordinate": {
+                  "lat": 51.9249992370605,
+                  "lng": 4.46888875961304
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400529",
+                "stationCode": "RTB",
+                "name": "Rotterdam Blaak",
+                "coordinate": {
+                  "lat": 51.9202766418457,
+                  "lng": 4.48888874053955
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400533",
+                "stationCode": "RTZ",
+                "name": "Rotterdam Zuid",
+                "coordinate": {
+                  "lat": 51.9044456481934,
+                  "lng": 4.51027774810791
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400542",
+                "stationCode": "RLB",
+                "name": "Rotterdam Lombardijen",
+                "coordinate": {
+                  "lat": 51.8800010681152,
+                  "lng": 4.53138875961304
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400132",
+                "stationCode": "BDPB",
+                "name": "Breda-Prinsenbeek",
+                "coordinate": {
+                  "lat": 51.606388092041,
+                  "lng": 4.72083330154419
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400131",
+                "stationCode": "BD",
+                "name": "Breda",
+                "coordinate": {
+                  "lat": 51.5955543518066,
+                  "lng": 4.78000020980835
+                },
+                "countryCode": "NL"
+              }
+            ],
+            "direction": "BOTH",
+            "operators": [
+              "NS International"
+            ]
+          },
+          "description": "geen treinen op de HSL",
+          "level": "LESS_TRAINS"
+        },
+        "sectionType": "HSL"
+      }
+    ],
+    "timespans": [
+      {
+        "start": "2026-11-04T14:53:00+0100",
+        "end": "2026-11-04T17:30:00+0100",
+        "period": "Woensdag 4 november 14:53 uur t/m woensdag 4 november 17:30 uur.",
+        "situation": {
+          "label": "Door een wisselstoring: tussen Rotterdam Centraal en Breda rijden er op de hogesnelheidslijn geen treinen."
+        },
+        "cause": {
+          "label": "wisselstoring",
+          "type": "OTHER"
+        },
+        "advices": []
+      }
+    ],
+    "alternativeTransportTimespans": []
+  },
+  {
+    "id": "6068889",
+    "isActive": true,
+    "title": "Schiphol - Rotterdam.",
+    "topic": "disruption_6068889_nl",
+    "type": "DISRUPTION",
+    "registrationTime": "2026-11-04T15:50:37+0100",
+    "releaseTime": "2026-11-04T15:50:37+0100",
+    "local": false,
+    "titleSections": [
+      [
+        {
+          "type": "STATION",
+          "value": "Schiphol Airport"
+        },
+        {
+          "type": "ICON",
+          "value": "DISRUPTION"
+        },
+        {
+          "type": "STATION",
+          "value": "Rotterdam C."
+        }
+      ]
+    ],
+    "start": "2026-11-04T14:53:00+0100",
+    "end": "2026-11-04T17:30:00+0100",
+    "phase": {
+      "id": "2",
+      "label": "Impact bekend"
+    },
+    "impact": {
+      "value": 3
+    },
+    "expectedDuration": {
+      "description": "Dit duurt tot ongeveer 17:30 uur.",
+      "endTime": "2026-11-04T17:30:00+0100"
+    },
+    "publicationSections": [
+      {
+        "section": {
+          "stations": [
+            {
+              "uicCode": "8400561",
+              "stationCode": "SHL",
+              "name": "Schiphol Airport",
+              "coordinate": {
+                "lat": 52.3094444274902,
+                "lng": 4.76194429397583
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400332",
+              "stationCode": "HFD",
+              "name": "Hoofddorp",
+              "coordinate": {
+                "lat": 52.2933349609375,
+                "lng": 4.70055532455444
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400530",
+              "stationCode": "RTD",
+              "name": "Rotterdam Centraal",
+              "coordinate": {
+                "lat": 51.9249992370605,
+                "lng": 4.46888875961304
+              },
+              "countryCode": "NL"
+            }
+          ],
+          "direction": "BOTH",
+          "operators": [
+            "NS International"
+          ]
+        },
+        "consequence": {
+          "section": {
+            "stations": [
+              {
+                "uicCode": "8400561",
+                "stationCode": "SHL",
+                "name": "Schiphol Airport",
+                "coordinate": {
+                  "lat": 52.3094444274902,
+                  "lng": 4.76194429397583
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400332",
+                "stationCode": "HFD",
+                "name": "Hoofddorp",
+                "coordinate": {
+                  "lat": 52.2933349609375,
+                  "lng": 4.70055532455444
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400530",
+                "stationCode": "RTD",
+                "name": "Rotterdam Centraal",
+                "coordinate": {
+                  "lat": 51.9249992370605,
+                  "lng": 4.46888875961304
+                },
+                "countryCode": "NL"
+              }
+            ],
+            "direction": "BOTH",
+            "operators": [
+              "NS International"
+            ]
+          },
+          "description": "minder treinen op de HSL",
+          "level": "LESS_TRAINS"
+        },
+        "sectionType": "HSL"
+      }
+    ],
+    "timespans": [
+      {
+        "start": "2026-11-04T14:53:00+0100",
+        "end": "2026-11-04T17:30:00+0100",
+        "period": "Woensdag 4 november 14:53 uur t/m woensdag 4 november 17:30 uur.",
+        "situation": {
+          "label": "Door een wisselstoring: tussen Schiphol Airport en Rotterdam Centraal rijden er op de hogesnelheidslijn minder treinen."
+        },
+        "cause": {
+          "label": "wisselstoring",
+          "type": "OTHER"
+        },
+        "advices": []
+      }
+    ],
+    "alternativeTransportTimespans": []
+  },
+  {
+    "id": "6068892",
+    "isActive": true,
+    "title": "Dordrecht - Roosendaal.",
+    "topic": "disruption_6068892_nl",
+    "type": "DISRUPTION",
+    "registrationTime": "2026-11-04T15:50:48+0100",
+    "releaseTime": "2026-11-04T15:50:48+0100",
+    "local": false,
+    "titleSections": [
+      [
+        {
+          "type": "STATION",
+          "value": "Dordrecht"
+        },
+        {
+          "type": "ICON",
+          "value": "DISRUPTION"
+        },
+        {
+          "type": "STATION",
+          "value": "Lage Zwaluwe"
+        },
+        {
+          "type": "STATION",
+          "value": "Roosendaal"
+        }
+      ]
+    ],
+    "start": "2026-11-04T14:53:00+0100",
+    "end": "2026-11-04T17:30:00+0100",
+    "phase": {
+      "id": "2",
+      "label": "Impact bekend"
+    },
+    "impact": {
+      "value": 2
+    },
+    "expectedDuration": {
+      "description": "Dit duurt tot ongeveer 17:30 uur.",
+      "endTime": "2026-11-04T17:30:00+0100"
+    },
+    "publicationSections": [
+      {
+        "section": {
+          "stations": [
+            {
+              "uicCode": "8400180",
+              "stationCode": "DDR",
+              "name": "Dordrecht",
+              "coordinate": {
+                "lat": 51.8072204589844,
+                "lng": 4.66833353042603
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400181",
+              "stationCode": "DDZD",
+              "name": "Dordrecht Zuid",
+              "coordinate": {
+                "lat": 51.7900009155273,
+                "lng": 4.67138910293579
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400382",
+              "stationCode": "ZLW",
+              "name": "Lage Zwaluwe",
+              "coordinate": {
+                "lat": 51.6911125183105,
+                "lng": 4.66305541992188
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400737",
+              "stationCode": "ZVB",
+              "name": "Zevenbergen",
+              "coordinate": {
+                "lat": 51.64042,
+                "lng": 4.60904
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400498",
+              "stationCode": "ODB",
+              "name": "Oudenbosch",
+              "coordinate": {
+                "lat": 51.587776184082,
+                "lng": 4.53333330154419
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400526",
+              "stationCode": "RSD",
+              "name": "Roosendaal",
+              "coordinate": {
+                "lat": 51.5402793884277,
+                "lng": 4.45833349227905
+              },
+              "countryCode": "NL"
+            }
+          ],
+          "direction": "BOTH",
+          "operators": [
+            "NS"
+          ]
+        },
+        "consequence": {
+          "section": {
+            "stations": [
+              {
+                "uicCode": "8400180",
+                "stationCode": "DDR",
+                "name": "Dordrecht",
+                "coordinate": {
+                  "lat": 51.8072204589844,
+                  "lng": 4.66833353042603
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400181",
+                "stationCode": "DDZD",
+                "name": "Dordrecht Zuid",
+                "coordinate": {
+                  "lat": 51.7900009155273,
+                  "lng": 4.67138910293579
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400382",
+                "stationCode": "ZLW",
+                "name": "Lage Zwaluwe",
+                "coordinate": {
+                  "lat": 51.6911125183105,
+                  "lng": 4.66305541992188
+                },
+                "countryCode": "NL"
+              }
+            ],
+            "direction": "BOTH",
+            "operators": [
+              "NS"
+            ]
+          },
+          "description": "minder Sprinters",
+          "level": "LESS_TRAINS"
+        },
+        "sectionType": "NL"
+      }
+    ],
+    "timespans": [
+      {
+        "start": "2026-11-04T14:53:00+0100",
+        "end": "2026-11-04T17:30:00+0100",
+        "period": "Woensdag 4 november 14:53 uur t/m woensdag 4 november 17:30 uur.",
+        "situation": {
+          "label": "Door een wisselstoring: tussen Dordrecht en Lage Zwaluwe rijden er minder Sprinters."
+        },
+        "cause": {
+          "label": "wisselstoring",
+          "type": "OTHER"
+        },
+        "advices": []
+      }
+    ],
+    "alternativeTransportTimespans": []
+  },
+  {
+    "id": "6068891",
+    "isActive": true,
+    "title": "Den Haag - Rotterdam - Dordrecht.",
+    "topic": "disruption_6068891_nl",
+    "type": "DISRUPTION",
+    "registrationTime": "2026-11-04T15:51:08+0100",
+    "releaseTime": "2026-11-04T15:51:08+0100",
+    "local": false,
+    "titleSections": [
+      [
+        {
+          "type": "STATION",
+          "value": "Den Haag C."
+        },
+        {
+          "type": "ICON",
+          "value": "DISRUPTION"
+        },
+        {
+          "type": "STATION",
+          "value": "Dordrecht"
+        }
+      ]
+    ],
+    "start": "2026-11-04T14:53:00+0100",
+    "end": "2026-11-04T17:30:00+0100",
+    "phase": {
+      "id": "2",
+      "label": "Impact bekend"
+    },
+    "impact": {
+      "value": 2
+    },
+    "expectedDuration": {
+      "description": "Dit duurt tot ongeveer 17:30 uur.",
+      "endTime": "2026-11-04T17:30:00+0100"
+    },
+    "publicationSections": [
+      {
+        "section": {
+          "stations": [
+            {
+              "uicCode": "8400282",
+              "stationCode": "GVC",
+              "name": "Den Haag Centraal",
+              "coordinate": {
+                "lat": 52.0802764892578,
+                "lng": 4.32499980926514
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400280",
+              "stationCode": "GV",
+              "name": "Den Haag HS",
+              "coordinate": {
+                "lat": 52.0697212219238,
+                "lng": 4.32250022888184
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400279",
+              "stationCode": "GVMW",
+              "name": "Den Haag Moerwijk",
+              "coordinate": {
+                "lat": 52.0538902282715,
+                "lng": 4.3086109161377
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400505",
+              "stationCode": "RSW",
+              "name": "Rijswijk",
+              "coordinate": {
+                "lat": 52.039722442627,
+                "lng": 4.31916666030884
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400170",
+              "stationCode": "DT",
+              "name": "Delft",
+              "coordinate": {
+                "lat": 52.0066680908203,
+                "lng": 4.35638904571533
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400166",
+              "stationCode": "DTCP",
+              "name": "Delft Campus",
+              "coordinate": {
+                "lat": 51.9908332824707,
+                "lng": 4.36472225189209
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400553",
+              "stationCode": "SDM",
+              "name": "Schiedam Centrum",
+              "coordinate": {
+                "lat": 51.9212438128032,
+                "lng": 4.4089937210083
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400530",
+              "stationCode": "RTD",
+              "name": "Rotterdam Centraal",
+              "coordinate": {
+                "lat": 51.9249992370605,
+                "lng": 4.46888875961304
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400529",
+              "stationCode": "RTB",
+              "name": "Rotterdam Blaak",
+              "coordinate": {
+                "lat": 51.9202766418457,
+                "lng": 4.48888874053955
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400533",
+              "stationCode": "RTZ",
+              "name": "Rotterdam Zuid",
+              "coordinate": {
+                "lat": 51.9044456481934,
+                "lng": 4.51027774810791
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400542",
+              "stationCode": "RLB",
+              "name": "Rotterdam Lombardijen",
+              "coordinate": {
+                "lat": 51.8800010681152,
+                "lng": 4.53138875961304
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400090",
+              "stationCode": "BRD",
+              "name": "Barendrecht",
+              "coordinate": {
+                "lat": 51.8547210693359,
+                "lng": 4.5533332824707
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400752",
+              "stationCode": "ZWD",
+              "name": "Zwijndrecht",
+              "coordinate": {
+                "lat": 51.814998626709,
+                "lng": 4.64166688919067
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400180",
+              "stationCode": "DDR",
+              "name": "Dordrecht",
+              "coordinate": {
+                "lat": 51.8072204589844,
+                "lng": 4.66833353042603
+              },
+              "countryCode": "NL"
+            }
+          ],
+          "direction": "BOTH",
+          "operators": [
+            "NS"
+          ]
+        },
+        "consequence": {
+          "section": {
+            "stations": [
+              {
+                "uicCode": "8400282",
+                "stationCode": "GVC",
+                "name": "Den Haag Centraal",
+                "coordinate": {
+                  "lat": 52.0802764892578,
+                  "lng": 4.32499980926514
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400280",
+                "stationCode": "GV",
+                "name": "Den Haag HS",
+                "coordinate": {
+                  "lat": 52.0697212219238,
+                  "lng": 4.32250022888184
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400279",
+                "stationCode": "GVMW",
+                "name": "Den Haag Moerwijk",
+                "coordinate": {
+                  "lat": 52.0538902282715,
+                  "lng": 4.3086109161377
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400505",
+                "stationCode": "RSW",
+                "name": "Rijswijk",
+                "coordinate": {
+                  "lat": 52.039722442627,
+                  "lng": 4.31916666030884
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400170",
+                "stationCode": "DT",
+                "name": "Delft",
+                "coordinate": {
+                  "lat": 52.0066680908203,
+                  "lng": 4.35638904571533
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400166",
+                "stationCode": "DTCP",
+                "name": "Delft Campus",
+                "coordinate": {
+                  "lat": 51.9908332824707,
+                  "lng": 4.36472225189209
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400553",
+                "stationCode": "SDM",
+                "name": "Schiedam Centrum",
+                "coordinate": {
+                  "lat": 51.9212438128032,
+                  "lng": 4.4089937210083
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400530",
+                "stationCode": "RTD",
+                "name": "Rotterdam Centraal",
+                "coordinate": {
+                  "lat": 51.9249992370605,
+                  "lng": 4.46888875961304
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400529",
+                "stationCode": "RTB",
+                "name": "Rotterdam Blaak",
+                "coordinate": {
+                  "lat": 51.9202766418457,
+                  "lng": 4.48888874053955
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400533",
+                "stationCode": "RTZ",
+                "name": "Rotterdam Zuid",
+                "coordinate": {
+                  "lat": 51.9044456481934,
+                  "lng": 4.51027774810791
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400542",
+                "stationCode": "RLB",
+                "name": "Rotterdam Lombardijen",
+                "coordinate": {
+                  "lat": 51.8800010681152,
+                  "lng": 4.53138875961304
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400090",
+                "stationCode": "BRD",
+                "name": "Barendrecht",
+                "coordinate": {
+                  "lat": 51.8547210693359,
+                  "lng": 4.5533332824707
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400752",
+                "stationCode": "ZWD",
+                "name": "Zwijndrecht",
+                "coordinate": {
+                  "lat": 51.814998626709,
+                  "lng": 4.64166688919067
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400180",
+                "stationCode": "DDR",
+                "name": "Dordrecht",
+                "coordinate": {
+                  "lat": 51.8072204589844,
+                  "lng": 4.66833353042603
+                },
+                "countryCode": "NL"
+              }
+            ],
+            "direction": "BOTH",
+            "operators": [
+              "NS"
+            ]
+          },
+          "description": "minder Sprinters",
+          "level": "LESS_TRAINS"
+        },
+        "sectionType": "NL"
+      }
+    ],
+    "timespans": [
+      {
+        "start": "2026-11-04T14:53:00+0100",
+        "end": "2026-11-04T17:30:00+0100",
+        "period": "Woensdag 4 november 14:53 uur t/m woensdag 4 november 17:30 uur.",
+        "situation": {
+          "label": "Door een wisselstoring: tussen Den Haag Centraal en Dordrecht rijden er minder Sprinters."
+        },
+        "cause": {
+          "label": "wisselstoring",
+          "type": "OTHER"
+        },
+        "advices": []
+      }
+    ],
+    "alternativeTransportTimespans": []
+  },
+  {
+    "id": "6b158242-eebf-499c-96c7-9d8956f3caa5",
+    "isActive": true,
+    "title": "Werkzaamheden Rotterdam Centraal op zaterdag 7 en zondag 8 november",
+    "topic": "disruption_6b158242-eebf-499c-96c7-9d8956f3caa5_nl",
+    "type": "CALAMITY",
+    "description": "Door werkzaamheden op zaterdag 7 en zondag 8 november rijden er geen treinen van, naar en via Rotterdam Centraal.",
+    "priority": "PRIO_3",
+    "lastUpdated": "2026-11-02T09:00:00+0100",
+    "bodyItems": [
+      {
+        "type": "TEXT",
+        "content": {
+          "text": "<p>Maak gebruik van de NS-bussen of de metro. De metrolijnen zijn toegankelijk voor NS-reizigers (behalve tussen Rotterdam Centraal en Den Haag Centraal). Plan je reis vooraf. <a href=\"https://www.ns.nl/reizen/betere-reis/werkzaamheden-rotterdam\">Meer informatie</a>.</p>"
+        }
+      }
+    ],
+    "buttons": {
+      "position": [
+        "BOTTOM"
+      ],
+      "items": [
+        {
+          "label": "Plan je reis",
+          "type": "PLANNER",
+          "accessibilityLabel": "Plan je reis",
+          "url": "https://www.ns.nl/reisplanner/#/"
+        }
+      ]
+    },
+    "url": "https://www.ns.nl/reizen/berichten/werkzaamheden-rond-rotterdam-centraal"
+  },
+  {
+    "id": "7006842",
+    "isActive": true,
+    "title": "Utrecht - Leiden.",
+    "type": "MAINTENANCE",
+    "registrationTime": "2026-10-12T10:45:19+0200",
+    "releaseTime": "2026-10-12T10:45:19+0200",
+    "local": false,
+    "titleSections": [
+      [
+        {
+          "type": "STATION",
+          "value": "Utrecht C."
+        },
+        {
+          "type": "STATION",
+          "value": "Bodegraven"
+        },
+        {
+          "type": "ICON",
+          "value": "MAINTENANCE"
+        },
+        {
+          "type": "STATION",
+          "value": "Alphen a/d Rijn"
+        },
+        {
+          "type": "STATION",
+          "value": "Leiden C."
+        }
+      ]
+    ],
+    "start": "2026-10-12T04:00:00+0200",
+    "end": "2027-07-14T02:00:00+0200",
+    "period": "Maandag 12 oktober 4:00 uur t/m woensdag 14 juli 2027 2:00 uur.",
+    "impact": {
+      "value": 5
+    },
+    "publicationSections": [
+      {
+        "section": {
+          "stations": [
+            {
+              "uicCode": "8400621",
+              "stationCode": "UT",
+              "name": "Utrecht Centraal",
+              "coordinate": {
+                "lat": 52.0888900756836,
+                "lng": 5.11027765274048
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400607",
+              "stationCode": "UTLR",
+              "name": "Utrecht Leidsche Rijn",
+              "coordinate": {
+                "lat": 52.09896,
+                "lng": 5.06523
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400614",
+              "stationCode": "UTT",
+              "name": "Utrecht Terwijde",
+              "coordinate": {
+                "lat": 52.1000753,
+                "lng": 5.0439547
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400651",
+              "stationCode": "VTN",
+              "name": "Vleuten",
+              "coordinate": {
+                "lat": 52.103056,
+                "lng": 5.007404
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400702",
+              "stationCode": "WD",
+              "name": "Woerden",
+              "coordinate": {
+                "lat": 52.0849990844727,
+                "lng": 4.89361095428467
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400121",
+              "stationCode": "BDG",
+              "name": "Bodegraven",
+              "coordinate": {
+                "lat": 52.0813903808594,
+                "lng": 4.7461109161377
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400053",
+              "stationCode": "APN",
+              "name": "Alphen a/d Rijn",
+              "coordinate": {
+                "lat": 52.1244430541992,
+                "lng": 4.65777778625488
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400384",
+              "stationCode": "LDL",
+              "name": "Leiden Lammenschans",
+              "coordinate": {
+                "lat": 52.1469459533691,
+                "lng": 4.49249982833862
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400390",
+              "stationCode": "LEDN",
+              "name": "Leiden Centraal",
+              "coordinate": {
+                "lat": 52.1661109924316,
+                "lng": 4.48166656494141
+              },
+              "countryCode": "NL"
+            }
+          ],
+          "direction": "BOTH",
+          "operators": [
+            "NS"
+          ]
+        },
+        "consequence": {
+          "section": {
+            "stations": [
+              {
+                "uicCode": "8400121",
+                "stationCode": "BDG",
+                "name": "Bodegraven",
+                "coordinate": {
+                  "lat": 52.0813903808594,
+                  "lng": 4.7461109161377
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400053",
+                "stationCode": "APN",
+                "name": "Alphen a/d Rijn",
+                "coordinate": {
+                  "lat": 52.1244430541992,
+                  "lng": 4.65777778625488
+                },
+                "countryCode": "NL"
+              }
+            ],
+            "direction": "BOTH",
+            "operators": [
+              "NS"
+            ]
+          },
+          "description": "er rijden bussen",
+          "level": "LESS_TRAINS"
+        },
+        "sectionType": "NL"
+      }
+    ],
+    "timespans": [
+      {
+        "start": "2026-10-12T04:00:00+0200",
+        "end": "2027-07-14T02:00:00+0200",
+        "period": "Maandag 12 oktober 4:00 uur t/m woensdag 14 juli 2027 2:00 uur.",
+        "situation": {
+          "label": "Door werkzaamheden: tussen Bodegraven en Alphen a/d Rijn rijden er bussen."
+        },
+        "cause": {
+          "label": "werkzaamheden",
+          "type": "OTHER"
+        },
+        "additionalTravelTime": {
+          "label": "De extra reistijd verschilt per reis.",
+          "shortLabel": "De reistijd verschilt per reis."
+        },
+        "alternativeTransport": {
+          "label": "er rijden stopbussen",
+          "shortLabel": "er rijden stopbussen"
+        },
+        "advices": [
+          "Door werkzaamheden aan de spoorbrug geen treinverkeer tussen Bodegraven en Alphen aan den Rijn. ",
+          "Tussen Leiden C. en Utrecht C. reis via Schiphol Airport."
+        ]
+      }
+    ],
+    "alternativeTransportTimespans": [
+      {
+        "start": "2026-10-12T04:00:00+0200",
+        "end": "2027-07-14T02:00:00+0200",
+        "alternativeTransport": {
+          "location": [
+            {
+              "station": {
+                "uicCode": "8400121",
+                "stationCode": "BDG",
+                "name": "Bodegraven",
+                "coordinate": {
+                  "lat": 52.0813903808594,
+                  "lng": 4.7461109161377
+                },
+                "countryCode": "NL"
+              },
+              "description": "vanaf het Stationsplein"
+            },
+            {
+              "station": {
+                "uicCode": "8400053",
+                "stationCode": "APN",
+                "name": "Alphen a/d Rijn",
+                "coordinate": {
+                  "lat": 52.1244430541992,
+                  "lng": 4.65777778625488
+                },
+                "countryCode": "NL"
+              },
+              "description": "vanaf het busstation, centrumzijde"
+            }
+          ],
+          "label": "Er rijden stopbussen tussen Bodegraven en Alphen a/d Rijn.",
+          "shortLabel": "Er rijden stopbussen Bodegraven - Alphen a/d Rijn."
+        }
+      }
+    ],
+    "summaryAdditionalTravelTime": {
+      "label": "De extra reistijd verschilt per reis.",
+      "shortLabel": "De reistijd verschilt per reis."
+    }
+  },
+  {
+    "id": "7006847",
+    "isActive": true,
+    "title": "Haarlem - Alkmaar.",
+    "type": "MAINTENANCE",
+    "registrationTime": "2026-11-02T13:37:54+0100",
+    "releaseTime": "2026-11-02T13:37:54+0100",
+    "local": false,
+    "titleSections": [
+      [
+        {
+          "type": "STATION",
+          "value": "Haarlem"
+        },
+        {
+          "type": "ICON",
+          "value": "MAINTENANCE"
+        },
+        {
+          "type": "STATION",
+          "value": "Beverwijk"
+        },
+        {
+          "type": "STATION",
+          "value": "Alkmaar"
+        }
+      ]
+    ],
+    "start": "2026-11-02T04:00:00+0100",
+    "end": "2026-11-07T02:00:00+0100",
+    "period": "Maandag 2 november 4:00 uur t/m zaterdag 7 november 2:00 uur.",
+    "impact": {
+      "value": 5
+    },
+    "publicationSections": [
+      {
+        "section": {
+          "stations": [
+            {
+              "uicCode": "8400285",
+              "stationCode": "HLM",
+              "name": "Haarlem",
+              "coordinate": {
+                "lat": 52.3877792358398,
+                "lng": 4.63833332061768
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400118",
+              "stationCode": "BLL",
+              "name": "Bloemendaal",
+              "coordinate": {
+                "lat": 52.404167175293,
+                "lng": 4.62750005722046
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400544",
+              "stationCode": "SPTZ",
+              "name": "Santpoort Zuid",
+              "coordinate": {
+                "lat": 52.4197235107422,
+                "lng": 4.63138866424561
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400543",
+              "stationCode": "SPTN",
+              "name": "Santpoort Noord",
+              "coordinate": {
+                "lat": 52.4338874816895,
+                "lng": 4.63250017166138
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400183",
+              "stationCode": "DRH",
+              "name": "Driehuis",
+              "coordinate": {
+                "lat": 52.4425010681152,
+                "lng": 4.63805532455444
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400113",
+              "stationCode": "BV",
+              "name": "Beverwijk",
+              "coordinate": {
+                "lat": 52.4783325195313,
+                "lng": 4.65666675567627
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400317",
+              "stationCode": "HK",
+              "name": "Heemskerk",
+              "coordinate": {
+                "lat": 52.4952774047852,
+                "lng": 4.68694448471069
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400615",
+              "stationCode": "UTG",
+              "name": "Uitgeest",
+              "coordinate": {
+                "lat": 52.5216674804687,
+                "lng": 4.70166683197022
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400151",
+              "stationCode": "CAS",
+              "name": "Castricum",
+              "coordinate": {
+                "lat": 52.5458335876465,
+                "lng": 4.65861129760742
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400309",
+              "stationCode": "HLO",
+              "name": "Heiloo",
+              "coordinate": {
+                "lat": 52.5994453430176,
+                "lng": 4.70055532455444
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400050",
+              "stationCode": "AMR",
+              "name": "Alkmaar",
+              "coordinate": {
+                "lat": 52.6377792358398,
+                "lng": 4.73972225189209
+              },
+              "countryCode": "NL"
+            }
+          ],
+          "direction": "BOTH",
+          "operators": [
+            "NS"
+          ]
+        },
+        "consequence": {
+          "section": {
+            "stations": [
+              {
+                "uicCode": "8400285",
+                "stationCode": "HLM",
+                "name": "Haarlem",
+                "coordinate": {
+                  "lat": 52.3877792358398,
+                  "lng": 4.63833332061768
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400118",
+                "stationCode": "BLL",
+                "name": "Bloemendaal",
+                "coordinate": {
+                  "lat": 52.404167175293,
+                  "lng": 4.62750005722046
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400544",
+                "stationCode": "SPTZ",
+                "name": "Santpoort Zuid",
+                "coordinate": {
+                  "lat": 52.4197235107422,
+                  "lng": 4.63138866424561
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400543",
+                "stationCode": "SPTN",
+                "name": "Santpoort Noord",
+                "coordinate": {
+                  "lat": 52.4338874816895,
+                  "lng": 4.63250017166138
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400183",
+                "stationCode": "DRH",
+                "name": "Driehuis",
+                "coordinate": {
+                  "lat": 52.4425010681152,
+                  "lng": 4.63805532455444
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400113",
+                "stationCode": "BV",
+                "name": "Beverwijk",
+                "coordinate": {
+                  "lat": 52.4783325195313,
+                  "lng": 4.65666675567627
+                },
+                "countryCode": "NL"
+              }
+            ],
+            "direction": "BOTH",
+            "operators": [
+              "NS"
+            ]
+          },
+          "description": "er rijden bussen",
+          "level": "LESS_TRAINS"
+        },
+        "sectionType": "NL"
+      }
+    ],
+    "timespans": [
+      {
+        "start": "2026-11-02T04:00:00+0100",
+        "end": "2026-11-07T02:00:00+0100",
+        "period": "Maandag 2 november 4:00 uur t/m zaterdag 7 november 2:00 uur.",
+        "situation": {
+          "label": "Door werkzaamheden: tussen Haarlem en Beverwijk rijden er bussen."
+        },
+        "cause": {
+          "label": "werkzaamheden",
+          "type": "OTHER"
+        },
+        "additionalTravelTime": {
+          "label": "De extra reistijd verschilt per reis.",
+          "shortLabel": "De reistijd verschilt per reis."
+        },
+        "alternativeTransport": {
+          "label": "er rijden stopbussen",
+          "shortLabel": "er rijden stopbussen"
+        },
+        "advices": [
+          "Er rijden ook Snelbussen tussen Haarlem en Beverwijk, dagelijks tussen 07:00 en 18:30 uur",
+          "Tussen Haarlem en Uitgeest/Alkmaar reis via Sloterdijk."
+        ]
+      }
+    ],
+    "alternativeTransportTimespans": [
+      {
+        "start": "2026-11-02T04:00:00+0100",
+        "end": "2026-11-07T02:00:00+0100",
+        "alternativeTransport": {
+          "location": [
+            {
+              "station": {
+                "uicCode": "8400285",
+                "stationCode": "HLM",
+                "name": "Haarlem",
+                "coordinate": {
+                  "lat": 52.3877792358398,
+                  "lng": 4.63833332061768
+                },
+                "countryCode": "NL"
+              },
+              "description": "vanaf de Jansweg"
+            },
+            {
+              "station": {
+                "uicCode": "8400118",
+                "stationCode": "BLL",
+                "name": "Bloemendaal",
+                "coordinate": {
+                  "lat": 52.404167175293,
+                  "lng": 4.62750005722046
+                },
+                "countryCode": "NL"
+              },
+              "description": "vanaf de voorzijde van het station"
+            },
+            {
+              "station": {
+                "uicCode": "8400544",
+                "stationCode": "SPTZ",
+                "name": "Santpoort Zuid",
+                "coordinate": {
+                  "lat": 52.4197235107422,
+                  "lng": 4.63138866424561
+                },
+                "countryCode": "NL"
+              },
+              "description": "vanaf de voorzijde van het station"
+            },
+            {
+              "station": {
+                "uicCode": "8400543",
+                "stationCode": "SPTN",
+                "name": "Santpoort Noord",
+                "coordinate": {
+                  "lat": 52.4338874816895,
+                  "lng": 4.63250017166138
+                },
+                "countryCode": "NL"
+              },
+              "description": "vanaf de voorzijde van het station"
+            },
+            {
+              "station": {
+                "uicCode": "8400183",
+                "stationCode": "DRH",
+                "name": "Driehuis",
+                "coordinate": {
+                  "lat": 52.4425010681152,
+                  "lng": 4.63805532455444
+                },
+                "countryCode": "NL"
+              },
+              "description": "vanaf de van den Vondellaan"
+            },
+            {
+              "station": {
+                "uicCode": "8400113",
+                "stationCode": "BV",
+                "name": "Beverwijk",
+                "coordinate": {
+                  "lat": 52.4783325195313,
+                  "lng": 4.65666675567627
+                },
+                "countryCode": "NL"
+              },
+              "description": "vanaf het busstation"
+            }
+          ],
+          "label": "Er rijden stopbussen tussen Haarlem, Bloemendaal, Santpoort Zuid, Santpoort Noord, Driehuis en Beverwijk.",
+          "shortLabel": "Er rijden stopbussen Haarlem - Bloemendaal - Santpoort Zuid - Santpoort Noord - Driehuis - Beverwijk."
+        }
+      }
+    ],
+    "summaryAdditionalTravelTime": {
+      "label": "De extra reistijd verschilt per reis.",
+      "shortLabel": "De reistijd verschilt per reis."
+    }
+  },
+  {
+    "id": "7008601",
+    "isActive": true,
+    "title": "Utrecht - Leiden.",
+    "type": "MAINTENANCE",
+    "registrationTime": "2026-11-04T07:48:56+0100",
+    "releaseTime": "2026-11-04T07:48:56+0100",
+    "local": false,
+    "titleSections": [
+      [
+        {
+          "type": "STATION",
+          "value": "Utrecht C."
+        },
+        {
+          "type": "ICON",
+          "value": "MAINTENANCE"
+        },
+        {
+          "type": "STATION",
+          "value": "Woerden"
+        },
+        {
+          "type": "STATION",
+          "value": "Leiden C."
+        }
+      ]
+    ],
+    "start": "2026-11-04T14:30:00+0100",
+    "end": "2026-11-04T19:15:00+0100",
+    "period": "Woensdag 4 november 14:30 uur t/m woensdag 4 november 19:15 uur.",
+    "impact": {
+      "value": 2
+    },
+    "publicationSections": [
+      {
+        "section": {
+          "stations": [
+            {
+              "uicCode": "8400621",
+              "stationCode": "UT",
+              "name": "Utrecht Centraal",
+              "coordinate": {
+                "lat": 52.0888900756836,
+                "lng": 5.11027765274048
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400607",
+              "stationCode": "UTLR",
+              "name": "Utrecht Leidsche Rijn",
+              "coordinate": {
+                "lat": 52.09896,
+                "lng": 5.06523
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400614",
+              "stationCode": "UTT",
+              "name": "Utrecht Terwijde",
+              "coordinate": {
+                "lat": 52.1000753,
+                "lng": 5.0439547
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400651",
+              "stationCode": "VTN",
+              "name": "Vleuten",
+              "coordinate": {
+                "lat": 52.103056,
+                "lng": 5.007404
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400702",
+              "stationCode": "WD",
+              "name": "Woerden",
+              "coordinate": {
+                "lat": 52.0849990844727,
+                "lng": 4.89361095428467
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400121",
+              "stationCode": "BDG",
+              "name": "Bodegraven",
+              "coordinate": {
+                "lat": 52.0813903808594,
+                "lng": 4.7461109161377
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400053",
+              "stationCode": "APN",
+              "name": "Alphen a/d Rijn",
+              "coordinate": {
+                "lat": 52.1244430541992,
+                "lng": 4.65777778625488
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400384",
+              "stationCode": "LDL",
+              "name": "Leiden Lammenschans",
+              "coordinate": {
+                "lat": 52.1469459533691,
+                "lng": 4.49249982833862
+              },
+              "countryCode": "NL"
+            },
+            {
+              "uicCode": "8400390",
+              "stationCode": "LEDN",
+              "name": "Leiden Centraal",
+              "coordinate": {
+                "lat": 52.1661109924316,
+                "lng": 4.48166656494141
+              },
+              "countryCode": "NL"
+            }
+          ],
+          "direction": "BOTH",
+          "operators": [
+            "NS"
+          ]
+        },
+        "consequence": {
+          "section": {
+            "stations": [
+              {
+                "uicCode": "8400621",
+                "stationCode": "UT",
+                "name": "Utrecht Centraal",
+                "coordinate": {
+                  "lat": 52.0888900756836,
+                  "lng": 5.11027765274048
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400607",
+                "stationCode": "UTLR",
+                "name": "Utrecht Leidsche Rijn",
+                "coordinate": {
+                  "lat": 52.09896,
+                  "lng": 5.06523
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400614",
+                "stationCode": "UTT",
+                "name": "Utrecht Terwijde",
+                "coordinate": {
+                  "lat": 52.1000753,
+                  "lng": 5.0439547
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400651",
+                "stationCode": "VTN",
+                "name": "Vleuten",
+                "coordinate": {
+                  "lat": 52.103056,
+                  "lng": 5.007404
+                },
+                "countryCode": "NL"
+              },
+              {
+                "uicCode": "8400702",
+                "stationCode": "WD",
+                "name": "Woerden",
+                "coordinate": {
+                  "lat": 52.0849990844727,
+                  "lng": 4.89361095428467
+                },
+                "countryCode": "NL"
+              }
+            ],
+            "direction": "BOTH",
+            "operators": [
+              "NS"
+            ]
+          },
+          "description": "dienstregeling aangepast",
+          "level": "LESS_TRAINS"
+        },
+        "sectionType": "NL"
+      }
+    ],
+    "timespans": [
+      {
+        "start": "2026-11-04T14:30:00+0100",
+        "end": "2026-11-04T19:15:00+0100",
+        "period": "Woensdag 4 november 14:30 uur t/m woensdag 4 november 19:15 uur.",
+        "situation": {
+          "label": "Door werkzaamheden: tussen Utrecht Centraal en Woerden is de dienstregeling aangepast."
+        },
+        "cause": {
+          "label": "werkzaamheden",
+          "type": "OTHER"
+        },
+        "additionalTravelTime": {
+          "label": "De extra reistijd verschilt per reis.",
+          "shortLabel": "De reistijd verschilt per reis."
+        },
+        "advices": [
+          "Plan uw reis in de app."
+        ]
+      }
+    ],
+    "alternativeTransportTimespans": [],
+    "summaryAdditionalTravelTime": {
+      "label": "De extra reistijd verschilt per reis.",
+      "shortLabel": "De reistijd verschilt per reis."
+    }
+  }
+]

@@ -50,12 +50,11 @@ func TestParseVehiclesAccuracy(t *testing.T) {
 	}
 }
 
-// TestParseRecordedVehicles runs the parser on a real recording from cmd/nsrecord when one is
-// present locally (backend/data is gitignored, so CI skips this).
+// TestParseRecordedVehicles runs the parser on a real recording from cmd/nsrecord.
 func TestParseRecordedVehicles(t *testing.T) {
-	body, err := os.ReadFile(filepath.Join("..", "..", "data", "ns", "vehicles.json"))
+	body, err := os.ReadFile(filepath.Join("..", "..", "testdata", "ns", "vehicles.json"))
 	if err != nil {
-		t.Skip("no local recording in backend/data/ns")
+		t.Fatal(err)
 	}
 	got, err := ParseVehicles(body)
 	if err != nil {

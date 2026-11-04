@@ -1,0 +1,64 @@
+{
+  "bron": "DVS",
+  "ritnummer": 2450,
+  "station": "SHL",
+  "type": "ICNG",
+  "vervoerder": "NS",
+  "spoor": "6",
+  "materieeldelen": [
+    {
+      "materieelnummer": 3304,
+      "type": "ICNG-B 8",
+      "faciliteiten": [
+        "WIFI",
+        "TOILET",
+        "STILTE",
+        "STROOM",
+        "FIETS",
+        "TOEGANKELIJK"
+      ],
+      "afbeelding": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png",
+      "breedte": 3442,
+      "hoogte": 119,
+      "bakken": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    {
+      "materieelnummer": 3108,
+      "type": "ICNG 5",
+      "faciliteiten": [
+        "WIFI",
+        "TOILET",
+        "STILTE",
+        "STROOM",
+        "FIETS",
+        "TOEGANKELIJK"
+      ],
+      "afbeelding": "https://vt.ns-mlab.nl/v1/images/icng_5.png",
+      "breedte": 2286,
+      "hoogte": 119,
+      "bakken": [
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    }
+  ],
+  "ingekort": false,
+  "lengte": 13,
+  "lengteInMeters": 273,
+  "lengteInPixels": 5728,
+  "debug": [
+    "No platform information for SHL - 6"
+  ]
+}

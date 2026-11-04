@@ -1,0 +1,1266 @@
+{
+  "payload": {
+    "notes": [],
+    "productNumbers": [
+      "2450"
+    ],
+    "stops": [
+      {
+        "id": "LLS_0",
+        "stop": {
+          "name": "Lelystad Centrum",
+          "lng": 5.47277784347534,
+          "lat": 52.5077781677246,
+          "countryCode": "NL",
+          "uicCode": "8400394"
+        },
+        "previousStopId": [],
+        "nextStopId": [
+          "ALMO_0"
+        ],
+        "destination": "Rotterdam C.",
+        "status": "ORIGIN",
+        "arrivals": [],
+        "departures": [
+          {
+            "product": {
+              "number": "2450",
+              "categoryCode": "ICD",
+              "shortCategoryName": "Intercity direct",
+              "longCategoryName": "Intercity direct",
+              "operatorCode": "NS",
+              "operatorName": "NS",
+              "type": "TRAIN"
+            },
+            "origin": {
+              "name": "Lelystad Centrum",
+              "lng": 5.47277784347534,
+              "lat": 52.5077781677246,
+              "countryCode": "NL",
+              "uicCode": "8400394"
+            },
+            "destination": {
+              "name": "Rotterdam Centraal",
+              "lng": 4.46888875961304,
+              "lat": 51.9249992370605,
+              "countryCode": "NL",
+              "uicCode": "8400530"
+            },
+            "plannedTime": "2026-11-04T14:53:00+0100",
+            "actualTime": "2026-11-04T15:06:35+0100",
+            "delayInSeconds": 815,
+            "plannedTrack": "1",
+            "actualTrack": "1",
+            "cancelled": false,
+            "crowdForecast": "LOW",
+            "stockIdentifiers": [
+              "3304",
+              "3108"
+            ]
+          }
+        ],
+        "actualStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 665,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "3304",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "3108",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "plannedStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 665,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "3304",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "3108",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "platformFeatures": [],
+        "coachCrowdForecast": []
+      },
+      {
+        "id": "ALMO_0",
+        "stop": {
+          "name": "Almere Oostvaarders",
+          "lng": 5.30055570602417,
+          "lat": 52.4033317565918,
+          "countryCode": "NL",
+          "uicCode": "8400226"
+        },
+        "previousStopId": [
+          "LLS_0"
+        ],
+        "nextStopId": [
+          "ALMB_0"
+        ],
+        "status": "PASSING",
+        "arrivals": [],
+        "departures": []
+      },
+      {
+        "id": "ALMB_0",
+        "stop": {
+          "name": "Almere Buiten",
+          "lng": 5.2780556678772,
+          "lat": 52.3941650390625,
+          "countryCode": "NL",
+          "uicCode": "8400081"
+        },
+        "previousStopId": [
+          "ALMO_0"
+        ],
+        "nextStopId": [
+          "ALMP_0"
+        ],
+        "destination": "Rotterdam C.",
+        "status": "STOP",
+        "arrivals": [
+          {
+            "product": {
+              "number": "2450",
+              "categoryCode": "ICD",
+              "shortCategoryName": "Intercity direct",
+              "longCategoryName": "Intercity direct",
+              "operatorCode": "NS",
+              "operatorName": "NS",
+              "type": "TRAIN"
+            },
+            "origin": {
+              "name": "Lelystad Centrum",
+              "lng": 5.47277784347534,
+              "lat": 52.5077781677246,
+              "countryCode": "NL",
+              "uicCode": "8400394"
+            },
+            "destination": {
+              "name": "Rotterdam Centraal",
+              "lng": 4.46888875961304,
+              "lat": 51.9249992370605,
+              "countryCode": "NL",
+              "uicCode": "8400530"
+            },
+            "plannedTime": "2026-11-04T15:05:00+0100",
+            "actualTime": "2026-11-04T15:17:41+0100",
+            "delayInSeconds": 761,
+            "plannedTrack": "1",
+            "actualTrack": "1",
+            "cancelled": false,
+            "crowdForecast": "LOW",
+            "stockIdentifiers": [
+              "3304",
+              "3108"
+            ]
+          }
+        ],
+        "departures": [
+          {
+            "product": {
+              "number": "2450",
+              "categoryCode": "ICD",
+              "shortCategoryName": "Intercity direct",
+              "longCategoryName": "Intercity direct",
+              "operatorCode": "NS",
+              "operatorName": "NS",
+              "type": "TRAIN"
+            },
+            "origin": {
+              "name": "Lelystad Centrum",
+              "lng": 5.47277784347534,
+              "lat": 52.5077781677246,
+              "countryCode": "NL",
+              "uicCode": "8400394"
+            },
+            "destination": {
+              "name": "Rotterdam Centraal",
+              "lng": 4.46888875961304,
+              "lat": 51.9249992370605,
+              "countryCode": "NL",
+              "uicCode": "8400530"
+            },
+            "plannedTime": "2026-11-04T15:05:00+0100",
+            "actualTime": "2026-11-04T15:17:41+0100",
+            "delayInSeconds": 761,
+            "plannedTrack": "1",
+            "actualTrack": "1",
+            "cancelled": false,
+            "crowdForecast": "LOW",
+            "stockIdentifiers": [
+              "3304",
+              "3108"
+            ]
+          }
+        ],
+        "actualStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 665,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "3304",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "3108",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "plannedStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 665,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "3304",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "3108",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "platformFeatures": [],
+        "coachCrowdForecast": []
+      },
+      {
+        "id": "ALMP_0",
+        "stop": {
+          "name": "Almere Parkwijk",
+          "lng": 5.24472236633301,
+          "lat": 52.3766670227051,
+          "countryCode": "NL",
+          "uicCode": "8400104"
+        },
+        "previousStopId": [
+          "ALMB_0"
+        ],
+        "nextStopId": [
+          "ALM_0"
+        ],
+        "status": "PASSING",
+        "arrivals": [],
+        "departures": []
+      },
+      {
+        "id": "ALM_0",
+        "stop": {
+          "name": "Almere Centrum",
+          "lng": 5.21764,
+          "lat": 52.37503,
+          "countryCode": "NL",
+          "uicCode": "8400080"
+        },
+        "previousStopId": [
+          "ALMP_0"
+        ],
+        "nextStopId": [
+          "ALMM_0"
+        ],
+        "destination": "Rotterdam C.",
+        "status": "STOP",
+        "arrivals": [
+          {
+            "product": {
+              "number": "2450",
+              "categoryCode": "ICD",
+              "shortCategoryName": "Intercity direct",
+              "longCategoryName": "Intercity direct",
+              "operatorCode": "NS",
+              "operatorName": "NS",
+              "type": "TRAIN"
+            },
+            "origin": {
+              "name": "Lelystad Centrum",
+              "lng": 5.47277784347534,
+              "lat": 52.5077781677246,
+              "countryCode": "NL",
+              "uicCode": "8400394"
+            },
+            "destination": {
+              "name": "Rotterdam Centraal",
+              "lng": 4.46888875961304,
+              "lat": 51.9249992370605,
+              "countryCode": "NL",
+              "uicCode": "8400530"
+            },
+            "plannedTime": "2026-11-04T15:10:00+0100",
+            "actualTime": "2026-11-04T15:21:37+0100",
+            "delayInSeconds": 697,
+            "plannedTrack": "1",
+            "actualTrack": "1",
+            "cancelled": false,
+            "punctuality": 100.0,
+            "crowdForecast": "LOW",
+            "stockIdentifiers": [
+              "3304",
+              "3108"
+            ]
+          }
+        ],
+        "departures": [
+          {
+            "product": {
+              "number": "2450",
+              "categoryCode": "ICD",
+              "shortCategoryName": "Intercity direct",
+              "longCategoryName": "Intercity direct",
+              "operatorCode": "NS",
+              "operatorName": "NS",
+              "type": "TRAIN"
+            },
+            "origin": {
+              "name": "Lelystad Centrum",
+              "lng": 5.47277784347534,
+              "lat": 52.5077781677246,
+              "countryCode": "NL",
+              "uicCode": "8400394"
+            },
+            "destination": {
+              "name": "Rotterdam Centraal",
+              "lng": 4.46888875961304,
+              "lat": 51.9249992370605,
+              "countryCode": "NL",
+              "uicCode": "8400530"
+            },
+            "plannedTime": "2026-11-04T15:11:00+0100",
+            "actualTime": "2026-11-04T15:22:55+0100",
+            "delayInSeconds": 715,
+            "plannedTrack": "1",
+            "actualTrack": "1",
+            "cancelled": false,
+            "crowdForecast": "LOW",
+            "stockIdentifiers": [
+              "3304",
+              "3108"
+            ]
+          }
+        ],
+        "actualStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 665,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "3304",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "3108",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "plannedStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 665,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "3304",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "3108",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "platformFeatures": [],
+        "coachCrowdForecast": []
+      },
+      {
+        "id": "ALMM_0",
+        "stop": {
+          "name": "Almere Muziekwijk",
+          "lng": 5.19027757644653,
+          "lat": 52.3675003051758,
+          "countryCode": "NL",
+          "uicCode": "8400082"
+        },
+        "previousStopId": [
+          "ALM_0"
+        ],
+        "nextStopId": [
+          "AMPO_0"
+        ],
+        "status": "PASSING",
+        "arrivals": [],
+        "departures": []
+      },
+      {
+        "id": "AMPO_0",
+        "stop": {
+          "name": "Almere Poort",
+          "lng": 5.151944,
+          "lat": 52.342778,
+          "countryCode": "NL",
+          "uicCode": "8400450"
+        },
+        "previousStopId": [
+          "ALMM_0"
+        ],
+        "nextStopId": [
+          "WP_0"
+        ],
+        "status": "PASSING",
+        "arrivals": [],
+        "departures": []
+      },
+      {
+        "id": "WP_0",
+        "stop": {
+          "name": "Weesp",
+          "lng": 5.04305553436279,
+          "lat": 52.3127784729004,
+          "countryCode": "NL",
+          "uicCode": "8400685"
+        },
+        "previousStopId": [
+          "AMPO_0"
+        ],
+        "nextStopId": [
+          "DMNZ_0"
+        ],
+        "status": "PASSING",
+        "arrivals": [],
+        "departures": []
+      },
+      {
+        "id": "DMNZ_0",
+        "stop": {
+          "name": "Diemen Zuid",
+          "lng": 4.95583343505859,
+          "lat": 52.3302764892578,
+          "countryCode": "NL",
+          "uicCode": "8400163"
+        },
+        "previousStopId": [
+          "WP_0"
+        ],
+        "nextStopId": [
+          "DVD_0"
+        ],
+        "status": "PASSING",
+        "arrivals": [],
+        "departures": []
+      },
+      {
+        "id": "DVD_0",
+        "stop": {
+          "name": "Duivendrecht",
+          "lng": 4.93638896942139,
+          "lat": 52.3233337402344,
+          "countryCode": "NL",
+          "uicCode": "8400194"
+        },
+        "previousStopId": [
+          "DMNZ_0"
+        ],
+        "nextStopId": [
+          "RAI_0"
+        ],
+        "destination": "Rotterdam C.",
+        "status": "STOP",
+        "arrivals": [
+          {
+            "product": {
+              "number": "2450",
+              "categoryCode": "ICD",
+              "shortCategoryName": "Intercity direct",
+              "longCategoryName": "Intercity direct",
+              "operatorCode": "NS",
+              "operatorName": "NS",
+              "type": "TRAIN"
+            },
+            "origin": {
+              "name": "Lelystad Centrum",
+              "lng": 5.47277784347534,
+              "lat": 52.5077781677246,
+              "countryCode": "NL",
+              "uicCode": "8400394"
+            },
+            "destination": {
+              "name": "Rotterdam Centraal",
+              "lng": 4.46888875961304,
+              "lat": 51.9249992370605,
+              "countryCode": "NL",
+              "uicCode": "8400530"
+            },
+            "plannedTime": "2026-11-04T15:28:00+0100",
+            "actualTime": "2026-11-04T15:42:09+0100",
+            "delayInSeconds": 849,
+            "plannedTrack": "4",
+            "actualTrack": "4",
+            "cancelled": false,
+            "crowdForecast": "LOW",
+            "stockIdentifiers": [
+              "3304",
+              "3108"
+            ]
+          }
+        ],
+        "departures": [
+          {
+            "product": {
+              "number": "2450",
+              "categoryCode": "ICD",
+              "shortCategoryName": "Intercity direct",
+              "longCategoryName": "Intercity direct",
+              "operatorCode": "NS",
+              "operatorName": "NS",
+              "type": "TRAIN"
+            },
+            "origin": {
+              "name": "Lelystad Centrum",
+              "lng": 5.47277784347534,
+              "lat": 52.5077781677246,
+              "countryCode": "NL",
+              "uicCode": "8400394"
+            },
+            "destination": {
+              "name": "Rotterdam Centraal",
+              "lng": 4.46888875961304,
+              "lat": 51.9249992370605,
+              "countryCode": "NL",
+              "uicCode": "8400530"
+            },
+            "plannedTime": "2026-11-04T15:28:00+0100",
+            "actualTime": "2026-11-04T15:42:09+0100",
+            "delayInSeconds": 849,
+            "plannedTrack": "4",
+            "actualTrack": "4",
+            "cancelled": false,
+            "crowdForecast": "LOW",
+            "stockIdentifiers": [
+              "3304",
+              "3108"
+            ]
+          }
+        ],
+        "actualStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 665,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "3304",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "3108",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "plannedStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 665,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "3304",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "3108",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "platformFeatures": [],
+        "coachCrowdForecast": []
+      },
+      {
+        "id": "RAI_0",
+        "stop": {
+          "name": "Amsterdam RAI",
+          "lng": 4.89027786254883,
+          "lat": 52.3372230529785,
+          "countryCode": "NL",
+          "uicCode": "8400056"
+        },
+        "previousStopId": [
+          "DVD_0"
+        ],
+        "nextStopId": [
+          "ASDZ_0"
+        ],
+        "status": "PASSING",
+        "arrivals": [],
+        "departures": []
+      },
+      {
+        "id": "ASDZ_0",
+        "stop": {
+          "name": "Amsterdam Zuid",
+          "lng": 4.872356,
+          "lat": 52.338889,
+          "countryCode": "NL",
+          "uicCode": "8400061"
+        },
+        "previousStopId": [
+          "RAI_0"
+        ],
+        "nextStopId": [
+          "SHL_0"
+        ],
+        "destination": "Rotterdam C.",
+        "status": "STOP",
+        "arrivals": [
+          {
+            "product": {
+              "number": "2450",
+              "categoryCode": "ICD",
+              "shortCategoryName": "Intercity direct",
+              "longCategoryName": "Intercity direct",
+              "operatorCode": "NS",
+              "operatorName": "NS",
+              "type": "TRAIN"
+            },
+            "origin": {
+              "name": "Lelystad Centrum",
+              "lng": 5.47277784347534,
+              "lat": 52.5077781677246,
+              "countryCode": "NL",
+              "uicCode": "8400394"
+            },
+            "destination": {
+              "name": "Rotterdam Centraal",
+              "lng": 4.46888875961304,
+              "lat": 51.9249992370605,
+              "countryCode": "NL",
+              "uicCode": "8400530"
+            },
+            "plannedTime": "2026-11-04T15:33:00+0100",
+            "actualTime": "2026-11-04T15:48:16+0100",
+            "delayInSeconds": 916,
+            "plannedTrack": "4",
+            "actualTrack": "4",
+            "cancelled": false,
+            "punctuality": 100.0,
+            "crowdForecast": "LOW",
+            "stockIdentifiers": [
+              "3304",
+              "3108"
+            ]
+          }
+        ],
+        "departures": [
+          {
+            "product": {
+              "number": "2450",
+              "categoryCode": "ICD",
+              "shortCategoryName": "Intercity direct",
+              "longCategoryName": "Intercity direct",
+              "operatorCode": "NS",
+              "operatorName": "NS",
+              "type": "TRAIN"
+            },
+            "origin": {
+              "name": "Lelystad Centrum",
+              "lng": 5.47277784347534,
+              "lat": 52.5077781677246,
+              "countryCode": "NL",
+              "uicCode": "8400394"
+            },
+            "destination": {
+              "name": "Rotterdam Centraal",
+              "lng": 4.46888875961304,
+              "lat": 51.9249992370605,
+              "countryCode": "NL",
+              "uicCode": "8400530"
+            },
+            "plannedTime": "2026-11-04T15:34:00+0100",
+            "actualTime": "2026-11-04T15:49:54+0100",
+            "delayInSeconds": 954,
+            "plannedTrack": "4",
+            "actualTrack": "4",
+            "cancelled": false,
+            "crowdForecast": "LOW",
+            "stockIdentifiers": [
+              "3304",
+              "3108"
+            ]
+          }
+        ],
+        "actualStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 665,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "3304",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "3108",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "plannedStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 665,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "3304",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "3108",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "platformFeatures": [],
+        "coachCrowdForecast": []
+      },
+      {
+        "id": "SHL_0",
+        "stop": {
+          "name": "Schiphol Airport",
+          "lng": 4.76194429397583,
+          "lat": 52.3094444274902,
+          "countryCode": "NL",
+          "uicCode": "8400561"
+        },
+        "previousStopId": [
+          "ASDZ_0"
+        ],
+        "nextStopId": [
+          "HFD_0"
+        ],
+        "destination": "Rotterdam C.",
+        "status": "STOP",
+        "arrivals": [
+          {
+            "product": {
+              "number": "2450",
+              "categoryCode": "ICD",
+              "shortCategoryName": "Intercity direct",
+              "longCategoryName": "Intercity direct",
+              "operatorCode": "NS",
+              "operatorName": "NS",
+              "type": "TRAIN"
+            },
+            "origin": {
+              "name": "Lelystad Centrum",
+              "lng": 5.47277784347534,
+              "lat": 52.5077781677246,
+              "countryCode": "NL",
+              "uicCode": "8400394"
+            },
+            "destination": {
+              "name": "Rotterdam Centraal",
+              "lng": 4.46888875961304,
+              "lat": 51.9249992370605,
+              "countryCode": "NL",
+              "uicCode": "8400530"
+            },
+            "plannedTime": "2026-11-04T15:40:00+0100",
+            "actualTime": "2026-11-04T15:56:13+0100",
+            "delayInSeconds": 973,
+            "plannedTrack": "5-6",
+            "actualTrack": "6",
+            "cancelled": false,
+            "punctuality": 84.6,
+            "crowdForecast": "LOW",
+            "stockIdentifiers": [
+              "3304",
+              "3108"
+            ]
+          }
+        ],
+        "departures": [
+          {
+            "product": {
+              "number": "2450",
+              "categoryCode": "ICD",
+              "shortCategoryName": "Intercity direct",
+              "longCategoryName": "Intercity direct",
+              "operatorCode": "NS",
+              "operatorName": "NS",
+              "type": "TRAIN"
+            },
+            "origin": {
+              "name": "Lelystad Centrum",
+              "lng": 5.47277784347534,
+              "lat": 52.5077781677246,
+              "countryCode": "NL",
+              "uicCode": "8400394"
+            },
+            "destination": {
+              "name": "Rotterdam Centraal",
+              "lng": 4.46888875961304,
+              "lat": 51.9249992370605,
+              "countryCode": "NL",
+              "uicCode": "8400530"
+            },
+            "plannedTime": "2026-11-04T15:42:00+0100",
+            "actualTime": "2026-11-04T15:57:53+0100",
+            "delayInSeconds": 953,
+            "plannedTrack": "5-6",
+            "actualTrack": "6",
+            "cancelled": false,
+            "crowdForecast": "LOW",
+            "stockIdentifiers": [
+              "3304",
+              "3108"
+            ]
+          }
+        ],
+        "actualStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 665,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "3304",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "3108",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "plannedStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 665,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "3304",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "3108",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "platformFeatures": [],
+        "coachCrowdForecast": []
+      },
+      {
+        "id": "HFD_0",
+        "stop": {
+          "name": "Hoofddorp",
+          "lng": 4.70055532455444,
+          "lat": 52.2933349609375,
+          "countryCode": "NL",
+          "uicCode": "8400332"
+        },
+        "previousStopId": [
+          "SHL_0"
+        ],
+        "nextStopId": [
+          "RTD_0"
+        ],
+        "status": "PASSING",
+        "arrivals": [],
+        "departures": []
+      },
+      {
+        "id": "RTD_0",
+        "stop": {
+          "name": "Rotterdam Centraal",
+          "lng": 4.46888875961304,
+          "lat": 51.9249992370605,
+          "countryCode": "NL",
+          "uicCode": "8400530"
+        },
+        "previousStopId": [
+          "HFD_0"
+        ],
+        "nextStopId": [],
+        "destination": "Rotterdam C.",
+        "status": "DESTINATION",
+        "arrivals": [
+          {
+            "product": {
+              "number": "2450",
+              "categoryCode": "ICD",
+              "shortCategoryName": "Intercity direct",
+              "longCategoryName": "Intercity direct",
+              "operatorCode": "NS",
+              "operatorName": "NS",
+              "type": "TRAIN"
+            },
+            "origin": {
+              "name": "Lelystad Centrum",
+              "lng": 5.47277784347534,
+              "lat": 52.5077781677246,
+              "countryCode": "NL",
+              "uicCode": "8400394"
+            },
+            "destination": {
+              "name": "Rotterdam Centraal",
+              "lng": 4.46888875961304,
+              "lat": 51.9249992370605,
+              "countryCode": "NL",
+              "uicCode": "8400530"
+            },
+            "plannedTime": "2026-11-04T16:08:00+0100",
+            "actualTime": "2026-11-04T16:23:48+0100",
+            "delayInSeconds": 948,
+            "plannedTrack": "11",
+            "actualTrack": "11",
+            "cancelled": false,
+            "punctuality": 91.7,
+            "crowdForecast": "UNKNOWN",
+            "stockIdentifiers": [
+              "0",
+              "0"
+            ]
+          }
+        ],
+        "departures": [],
+        "actualStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 717,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "0",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "0",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "plannedStock": {
+          "trainType": "ICNG",
+          "numberOfSeats": 717,
+          "numberOfParts": 13,
+          "trainParts": [
+            {
+              "stockIdentifier": "0",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_B_8.png"
+              }
+            },
+            {
+              "stockIdentifier": "0",
+              "facilities": [
+                "WIFI",
+                "TOILET",
+                "STILTE",
+                "STROOM",
+                "FIETS",
+                "TOEGANKELIJK"
+              ],
+              "image": {
+                "uri": "https://vt.ns-mlab.nl/v1/images/icng_5.png"
+              }
+            }
+          ],
+          "hasSignificantChange": false
+        },
+        "platformFeatures": [],
+        "coachCrowdForecast": []
+      }
+    ],
+    "allowCrowdReporting": true,
+    "source": "PPV"
+  }
+}

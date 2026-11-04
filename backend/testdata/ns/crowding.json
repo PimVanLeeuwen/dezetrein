@@ -1,0 +1,40 @@
+{
+  "prognoses": [
+    {
+      "trainNumber": 2450,
+      "stationUic": "8400081",
+      "date": "2026-11-04",
+      "classification": "LOW"
+    },
+    {
+      "trainNumber": 2450,
+      "stationUic": "8400394",
+      "date": "2026-11-04",
+      "classification": "LOW"
+    },
+    {
+      "trainNumber": 2450,
+      "stationUic": "8400561",
+      "date": "2026-11-04",
+      "classification": "LOW"
+    },
+    {
+      "trainNumber": 2450,
+      "stationUic": "8400061",
+      "date": "2026-11-04",
+      "classification": "LOW"
+    },
+    {
+      "trainNumber": 2450,
+      "stationUic": "8400080",
+      "date": "2026-11-04",
+      "classification": "LOW"
+    },
+    {
+      "trainNumber": 2450,
+      "stationUic": "8400194",
+      "date": "2026-11-04",
+      "classification": "LOW"
+    }
+  ]
+}
