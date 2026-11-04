@@ -1,0 +1,16 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Field test recordings (location traces): kept out of git until anonymised for replay tests
+backend/data/
+
+# Phase 0 field test: personal infrastructure details (NAS, tunnel, Tailscale), local only
+backend/fieldtest/
+
+# Local only
+CLAUDE.md
+CLAUDE.local.md
+plan.md
+.DS_Store
