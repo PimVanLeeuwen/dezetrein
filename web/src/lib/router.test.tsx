@@ -17,6 +17,7 @@ describe('parseRoute', () => {
     ['/trein/1234567', { name: 'notFound' }],
     ['/trein/abc', { name: 'notFound' }],
     ['/trein/', { name: 'notFound' }],
+    ['/vind', { name: 'find' }],
     ['/privacy', { name: 'privacy' }],
     ['/over', { name: 'about' }],
     ['/nope', { name: 'notFound' }],

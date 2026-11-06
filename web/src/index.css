@@ -145,7 +145,24 @@ body::after {
   }
 }
 
+/* While locating: the train rides back and forth along a short track. */
+.track-ride {
+  animation: track-ride 2.6s cubic-bezier(0.45, 0, 0.3, 1) infinite alternate;
+}
+@keyframes track-ride {
+  from {
+    left: 0%;
+  }
+  to {
+    left: calc(100% - 1.75rem);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .track-ride {
+    animation: none;
+    left: calc(50% - 0.875rem);
+  }
   .rail-track {
     animation: none;
     stroke-dashoffset: 0;

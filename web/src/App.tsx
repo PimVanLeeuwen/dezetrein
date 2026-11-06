@@ -1,6 +1,7 @@
 import { Layout } from './components/Layout';
 import { I18nProvider } from './i18n/i18n';
 import { useRoute } from './lib/router';
+import { Find } from './pages/Find';
 import { Home } from './pages/Home';
 import { About, NotFound, Privacy, Train } from './pages/Simple';
 
@@ -9,6 +10,8 @@ function Routes() {
   switch (route.name) {
     case 'home':
       return <Home />;
+    case 'find':
+      return <Find />;
     case 'train':
       return <Train key={route.train} train={route.train} />;
     case 'privacy':

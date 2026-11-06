@@ -21,6 +21,13 @@ describe('App', () => {
     expect(document.title).toBe('Vind de trein waarin je zit · dezetrein');
   });
 
+  it('opens the find flow from the start screen', () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: /Vind mijn trein/ }));
+    expect(window.location.pathname).toBe('/vind');
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Waar ben je?');
+  });
+
   it('switches to English and back', () => {
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: 'Switch to English' }));
@@ -41,6 +48,7 @@ describe('App', () => {
 
   it.each([
     ['/trein/2450', 'Trein 2450'],
+    ['/vind', 'Waar ben je?'],
     ['/privacy', 'Privacy'],
     ['/over', 'Over dezetrein'],
     ['/bestaat-niet', 'Pagina niet gevonden'],

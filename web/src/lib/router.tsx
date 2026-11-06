@@ -4,6 +4,7 @@ import { useSyncExternalStore, type AnchorHTMLAttributes, type MouseEvent } from
 
 export type Route =
   | { name: 'home' }
+  | { name: 'find' }
   | { name: 'train'; train: string }
   | { name: 'privacy' }
   | { name: 'about' }
@@ -16,6 +17,7 @@ export function parseRoute(path: string): Route {
   if (path === '/' || path === '') return { name: 'home' };
   const train = trainPath.exec(path);
   if (train?.[1]) return { name: 'train', train: train[1] };
+  if (path === '/vind' || path === '/vind/') return { name: 'find' };
   if (path === '/privacy' || path === '/privacy/') return { name: 'privacy' };
   if (path === '/over' || path === '/over/') return { name: 'about' };
   return { name: 'notFound' };
@@ -23,6 +25,7 @@ export function parseRoute(path: string): Route {
 
 export const paths = {
   home: '/',
+  find: '/vind',
   train: (n: string) => `/trein/${encodeURIComponent(n)}`,
   privacy: '/privacy',
   about: '/over',
