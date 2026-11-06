@@ -9,6 +9,12 @@ backend/data/
 # Phase 0 field test: personal infrastructure details (NAS, tunnel, Tailscale), local only
 backend/fieldtest/
 
+# Build output
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+
 # Local only
 CLAUDE.md
 CLAUDE.local.md
