@@ -1,0 +1,147 @@
+name: Security
+
+# Triggers: pull requests into main, pushes to main, weekly and manual.
+#
+# Blocking policy: a job fails on any leaked secret, on a Go vulnerability that the code actually
+# reaches (govulncheck), and on CRITICAL findings elsewhere (npm audit, Trivy with a fix
+# available). Everything else is reported in the Security tab or the job log without failing.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Weekly on Saturday morning, a few hours before Dependabot (10:00 Amsterdam), so a new CVE in
+    # an unchanged dependency surfaces without waiting for a push.
+    - cron: '0 6 * * 6'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  gitleaks:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      # The gitleaks CLI image, pinned by tag and digest (bump both together).
+      - name: Run gitleaks
+        run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.30.1@sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f detect --source=/repo --no-banner --redact
+
+  semgrep:
+    name: SAST (Semgrep)
+    runs-on: ubuntu-latest
+    # Dependabot PRs only touch dependency files.
+    if: github.actor != 'dependabot[bot]'
+    permissions:
+      contents: read
+      security-events: write
+    container:
+      image: semgrep/semgrep:1.184.0@sha256:cc1b68266f267878b39739373ea9985b9a78e5d64497dd875c8de100b22695ed
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Report only. Explicit rule packs with metrics off, instead of `--config auto`, which
+      # requires sending usage metrics to Semgrep.
+      - name: Run Semgrep
+        run: >-
+          semgrep scan --metrics=off --sarif --output semgrep.sarif
+          --config p/golang --config p/typescript --config p/react
+          --config p/nginx --config p/dockerfile --config p/github-actions
+      # Semgrep keeps nosemgrep-silenced findings in its SARIF (tagged as suppressed) and GitHub
+      # opens alerts for them anyway, so drop them before upload.
+      - name: Drop nosemgrep-suppressed results
+        if: always() && hashFiles('semgrep.sarif') != ''
+        run: |
+          python3 - <<'EOF'
+          import json
+          with open("semgrep.sarif") as f:
+              sarif = json.load(f)
+          for run in sarif["runs"]:
+              before = len(run["results"])
+              run["results"] = [r for r in run["results"] if not r.get("suppressions")]
+              print(f"Dropped {before - len(run['results'])} nosemgrep-suppressed result(s)")
+          with open("semgrep.sarif", "w") as f:
+              json.dump(sarif, f)
+          EOF
+      - name: Upload SARIF to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
+        if: always() && hashFiles('semgrep.sarif') != ''
+        with:
+          sarif_file: semgrep.sarif
+          category: semgrep
+
+  govulncheck:
+    name: Dependency audit (Go, govulncheck)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: backend/go.mod
+          cache: false
+      # Also checks the Go standard library of the toolchain in go.mod. Fails only on
+      # vulnerabilities in code the program actually calls.
+      - name: Run govulncheck
+        run: go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
+
+  npm-audit:
+    name: Dependency audit (npm)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+      # npm audit reads the lockfile only, so no install is needed. The log lists every finding;
+      # only critical ones fail the step.
+      - name: Audit the website
+        working-directory: web
+        run: npm audit --audit-level=critical
+
+  trivy-repo:
+    name: Repository scan (Trivy)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      # Lockfile vulnerabilities, Dockerfile misconfigurations and secrets in the working tree,
+      # HIGH and CRITICAL, into the Security tab.
+      - name: Run Trivy (report)
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: sarif
+          output: trivy-repo.sarif
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+      - name: Upload SARIF to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
+        if: always() && hashFiles('trivy-repo.sarif') != ''
+        with:
+          sarif_file: trivy-repo.sarif
+          category: trivy-repo
+      # Fails the job on CRITICAL findings that have a fix, listed as a table in the log.
+      - name: Run Trivy (block on critical)
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          format: table
+          severity: CRITICAL
+          ignore-unfixed: true
+          exit-code: '1'
+          skip-setup-trivy: true

@@ -1,0 +1,60 @@
+version: 2
+
+# `cooldown` holds a freshly published release back for a few days before Dependabot proposes
+# it, so a compromised publish has time to be spotted and yanked. It applies to version updates
+# only: security updates bypass it. Majors are grouped apart from minor/patch, so one blocked
+# major cannot hold back routine (often security) updates.
+#
+# target-branch is main while the project works on main only; it moves to develop at launch.
+# Review requests come from CODEOWNERS.
+
+updates:
+  - package-ecosystem: "gomod"
+    directory: "/backend"
+    target-branch: "main"
+    schedule: { interval: "weekly", day: "saturday", time: "10:00", timezone: "Europe/Amsterdam" }
+    cooldown: { default-days: 7, semver-major-days: 30, semver-minor-days: 7, semver-patch-days: 3 }
+    open-pull-requests-limit: 3
+    labels: ["dependencies", "backend"]
+    groups:
+      minor-patch: { patterns: ["*"], update-types: ["minor", "patch"] }
+      major: { patterns: ["*"], update-types: ["major"] }
+
+  - package-ecosystem: "npm"
+    directory: "/web"
+    target-branch: "main"
+    schedule: { interval: "weekly", day: "saturday", time: "10:00", timezone: "Europe/Amsterdam" }
+    cooldown: { default-days: 7, semver-major-days: 30, semver-minor-days: 7, semver-patch-days: 3 }
+    open-pull-requests-limit: 3
+    labels: ["dependencies", "frontend"]
+    groups:
+      minor-patch: { patterns: ["*"], update-types: ["minor", "patch"] }
+      major: { patterns: ["*"], update-types: ["major"] }
+    ignore:
+      # typescript-eslint supports TypeScript below 6.1 only, so TypeScript 7 breaks `npm ci`
+      # with a peer conflict. Remove once typescript-eslint supports TypeScript 7.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "main"
+    schedule: { interval: "weekly", day: "saturday", time: "10:00", timezone: "Europe/Amsterdam" }
+    # github-actions and docker support only default-days.
+    cooldown: { default-days: 7 }
+    open-pull-requests-limit: 3
+    labels: ["dependencies", "ci"]
+    groups:
+      minor-patch: { patterns: ["*"], update-types: ["minor", "patch"] }
+      major: { patterns: ["*"], update-types: ["major"] }
+
+  - package-ecosystem: "docker"
+    directories: ["/backend", "/web"]
+    target-branch: "main"
+    schedule: { interval: "weekly", day: "saturday", time: "10:00", timezone: "Europe/Amsterdam" }
+    cooldown: { default-days: 7 }
+    open-pull-requests-limit: 3
+    labels: ["dependencies", "docker"]
+    groups:
+      minor-patch: { patterns: ["*"], update-types: ["minor", "patch"] }
+      major: { patterns: ["*"], update-types: ["major"] }

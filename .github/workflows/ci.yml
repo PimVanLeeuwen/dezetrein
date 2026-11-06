@@ -1,0 +1,180 @@
+name: CI
+
+on:
+  # Pushes to main build and publish the images. Pull requests into main are tested before merge.
+  # Work happens on main for now; develop is added to both triggers at launch.
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  # ==================== TESTS ====================
+  backend:
+    name: Backend (Go)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: backend/go.mod
+          # No third-party modules yet, so there is no go.sum to key a cache on.
+          cache: false
+      - name: Check formatting
+        run: |
+          unformatted=$(gofmt -l .)
+          if [ -n "$unformatted" ]; then echo "::error::Not gofmt-formatted:"; echo "$unformatted"; exit 1; fi
+      - run: go vet ./...
+      - run: go test -race -coverprofile=coverage.out ./...
+      # Coverage is report-only for now (no minimum).
+      - name: Coverage summary
+        if: always() && hashFiles('backend/coverage.out') != ''
+        run: |
+          {
+            echo "### Backend coverage"
+            echo '```'
+            go tool cover -func=coverage.out | tail -1
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - run: go build ./...
+
+  web:
+    name: Website (React)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test:coverage
+      # Coverage is report-only for now (no minimum).
+      - name: Coverage summary
+        if: always() && hashFiles('web/coverage/coverage-summary.json') != ''
+        run: |
+          node >> "$GITHUB_STEP_SUMMARY" <<'EOF'
+          const t = require("./coverage/coverage-summary.json").total;
+          const row = (k) => `| ${k} | ${t[k].pct}% | ${t[k].covered}/${t[k].total} |`;
+          console.log(["### Website coverage", "| Metric | % | Covered |", "|---|---|---|", ...["lines", "statements", "functions", "branches"].map(row)].join("\n"));
+          EOF
+      - run: npm run build
+
+  # ==================== PUBLISH GATE (main only) ====================
+  # Nothing reaches GHCR until the owner approves it, so a merge alone cannot publish an image.
+  # Enforced by the `production` environment's required reviewer (repo Settings > Environments).
+  # One gate job, so one approval releases both image builds.
+  approve-publish:
+    name: Await publish approval
+    needs: [backend, web]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - run: echo "Publishing ${{ github.sha }} approved."
+
+  # ==================== BUILD & PUSH IMAGES (main only) ====================
+  # Images are tagged :latest, :v<version> (from web/package.json) and :main-<sha>, for the
+  # amd64 NAS. Deploys pin a tag; nothing deploys by itself.
+  images:
+    name: Build & push (${{ matrix.service }})
+    needs: [approve-publish]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [backend, web]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Resolve version and image name
+        id: meta
+        run: |
+          echo "version=$(node -p "require('./web/package.json').version")" >> "$GITHUB_OUTPUT"
+          # GHCR requires a lowercase namespace.
+          echo "image=ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')-${{ matrix.service }}" >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push
+        id: push
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: ./${{ matrix.service }}
+          platforms: linux/amd64
+          push: true
+          tags: |
+            ${{ steps.meta.outputs.image }}:latest
+            ${{ steps.meta.outputs.image }}:v${{ steps.meta.outputs.version }}
+            ${{ steps.meta.outputs.image }}:main-${{ github.sha }}
+          build-args: |
+            VERSION=${{ steps.meta.outputs.version }}
+          cache-from: type=gha,scope=${{ matrix.service }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.service }}
+      # Image scanning is best-effort: it must not block a deploy whose images are already pushed.
+      - name: Scan image (Trivy)
+        uses: aquasecurity/trivy-action@ed142fd0673e97e23eac54620cfb913e5ce36c25 # v0.36.0
+        continue-on-error: true
+        with:
+          image-ref: ${{ steps.meta.outputs.image }}@${{ steps.push.outputs.digest }}
+          format: sarif
+          output: trivy-${{ matrix.service }}.sarif
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+      - name: Upload Trivy results
+        uses: github/codeql-action/upload-sarif@33d7b85da1a04171e211befe2c739303b9a4c066 # v4.39.3
+        if: always() && hashFiles(format('trivy-{0}.sarif', matrix.service)) != ''
+        continue-on-error: true
+        with:
+          sarif_file: trivy-${{ matrix.service }}.sarif
+          category: trivy-${{ matrix.service }}
+
+  # ==================== GITHUB RELEASE (new version only) ====================
+  # A release v<version> is cut only when that tag does not exist yet, so a push to main that
+  # does not change the version just refreshes :latest.
+  release:
+    name: GitHub Release
+    needs: images
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - name: Resolve version
+        id: version
+        run: echo "version=$(node -p "require('./web/package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Create release when the tag is new
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if git ls-remote --tags origin "v$VERSION" | grep -q .; then
+            echo "v$VERSION already released"
+          else
+            gh release create "v$VERSION" --title "v$VERSION" --generate-notes
+          fi
