@@ -5,6 +5,10 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
+
+	"github.com/PimVanLeeuwen/dezetrein/backend/internal/live"
+	"github.com/PimVanLeeuwen/dezetrein/backend/internal/ns"
 )
 
 func TestHealthz(t *testing.T) {
@@ -50,5 +54,39 @@ func TestUnknownRoutes(t *testing.T) {
 	res.Body.Close()
 	if res.StatusCode != http.StatusMethodNotAllowed {
 		t.Errorf("POST /healthz: status %d, want 405", res.StatusCode)
+	}
+}
+
+type fakeFeed live.Snapshot
+
+func (f fakeFeed) Snapshot() live.Snapshot { return live.Snapshot(f) }
+
+func TestHealthzReportsVehicleFeed(t *testing.T) {
+	asOf := time.Date(2026, 11, 6, 12, 0, 0, 0, time.UTC)
+	for name, tc := range map[string]struct {
+		feed fakeFeed
+		want string
+	}{
+		"fresh":         {fakeFeed{Vehicles: make([]ns.Vehicle, 2), AsOf: asOf}, `{"as_of":"2026-11-06T12:00:00Z","count":2,"stale":false}`},
+		"never fetched": {fakeFeed{Stale: true}, `{"count":0,"stale":true}`},
+	} {
+		srv := httptest.NewServer((&Server{Vehicles: tc.feed}).Handler())
+		res, err := http.Get(srv.URL + "/healthz")
+		if err != nil {
+			t.Fatal(err)
+		}
+		var body struct {
+			OK       bool            `json:"ok"`
+			Vehicles json.RawMessage `json:"vehicles"`
+		}
+		err = json.NewDecoder(res.Body).Decode(&body)
+		res.Body.Close()
+		srv.Close()
+		if err != nil {
+			t.Fatal(err)
+		}
+		if res.StatusCode != http.StatusOK || !body.OK || string(body.Vehicles) != tc.want {
+			t.Errorf("%s: status %d, ok %v, vehicles %s, want %s", name, res.StatusCode, body.OK, body.Vehicles, tc.want)
+		}
 	}
 }
