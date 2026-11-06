@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* Dark mode follows the .dark class on <html>, set from the system setting or the user's choice. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-brand: #0b6e4f;
   --color-brand-light: #5fd1a6;
