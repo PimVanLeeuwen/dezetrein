@@ -54,7 +54,9 @@ cd backend && NS_API_KEY=... go run ./cmd/server
 | `NS_API_KEY` | | NS API portal key (live mode) |
 | `NS_FIXTURES` | `testdata/ns` | Folder with recordings from `cmd/nsrecord` (fixture mode) |
 
-API: `GET /api/trains/{trainNumber}`, `GET /api/stations/{code}/departures`, `POST /api/match` (body `{"fixes":[{"lat","lng","accuracy","speed","heading","t"}]}`, 1 to 5 fixes), and `GET /healthz`. Every NS-backed answer carries `as_of` and `stale`.
+API: `GET /api/trains/{trainNumber}`, `GET /api/stations/{code}/departures`, `POST /api/match` (body `{"fixes":[{"lat","lng","accuracy","speed","heading","t"}]}`, 1 to 5 fixes), `POST /api/carriage` (body `{"carriage":"9402","fixes":[...]}`, fixes optional), and `GET /healthz`. Every NS-backed answer carries `as_of` and `stale`.
+
+NS has no lookup by carriage number, so `/api/carriage` first checks the carriages seen in compositions and journeys the site fetched in the last 10 minutes (no extra NS calls), then, with a location, the compositions of the 12 nearest trains. Without a location and without a recent sighting it answers `"train": null` with `"located": false`, so the page can ask for a location or the journey number.
 
 Docker images:
 

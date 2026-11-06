@@ -71,10 +71,10 @@ func (s *Server) train(w http.ResponseWriter, r *http.Request) {
 		s.logExtra(what, err)
 	}
 	wg.Go(func() {
-		journey, jErr = s.journeys.Get(ctx, train, func(ctx context.Context) (*ns.Journey, error) { return s.NS.Journey(ctx, train) })
+		journey, jErr = s.journey(ctx, train)
 	})
 	wg.Go(func() {
-		res, err := s.compositions.Get(ctx, train, func(ctx context.Context) (*ns.Composition, error) { return s.NS.Composition(ctx, train) })
+		res, err := s.composition(ctx, train)
 		comp = res.Value
 		extra("composition", res.Stale, err)
 	})

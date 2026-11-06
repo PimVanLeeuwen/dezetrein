@@ -13,8 +13,9 @@ import (
 // address, and NS is protected by the shared caches, not by this. The limits stop scripts and
 // runaway loops.
 const (
-	apiPerMinute   = 300
-	apiBurst       = 100
+	apiPerMinute = 300
+	apiBurst     = 100
+	// The lookup limit, shared by /api/match and /api/carriage.
 	matchPerMinute = 60
 	matchBurst     = 20
 	// maxClients caps the limiter's memory; idle clients are dropped first.

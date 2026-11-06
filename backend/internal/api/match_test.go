@@ -43,7 +43,7 @@ func TestMatchReturnsDescribedCandidates(t *testing.T) {
 		t.Fatalf("unexpected: %+v", body)
 	}
 	first, second := body.Candidates[0], body.Candidates[1]
-	if first.Train != "2450" || first.Destination != "Rotterdam Centraal" || len(first.Carriages) == 0 || first.Category != "ICD" || first.DistanceM > 50 {
+	if first.Train != "2450" || first.Destination != "Rotterdam Centraal" || len(first.Carriages) == 0 || first.Category != "ICD" || first.DistanceM == nil || *first.DistanceM > 50 {
 		t.Errorf("unexpected first candidate: %+v", first)
 	}
 	if second.Train != "4000" || second.Destination != "" || second.Carriages == nil || len(second.Carriages) != 0 {

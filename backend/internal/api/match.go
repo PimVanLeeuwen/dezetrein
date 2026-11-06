@@ -48,7 +48,7 @@ type candidateOut struct {
 	Category    string   `json:"category,omitempty"`
 	Destination string   `json:"destination,omitempty"`
 	Carriages   []string `json:"carriages"`
-	DistanceM   int      `json:"distanceM"`
+	DistanceM   *int     `json:"distanceM,omitempty"` // from the user; absent for an index hit
 }
 
 type matchResponse struct {
@@ -153,27 +153,52 @@ func (s *Server) describe(ctx context.Context, cands []match.Candidate) []candid
 	defer cancel()
 	var wg sync.WaitGroup
 	for i, c := range cands {
-		train := c.Vehicle.Number()
-		out[i] = candidateOut{Train: train, Category: c.Vehicle.Type, Carriages: []string{}, DistanceM: int(math.Round(c.DistanceM))}
-		if s.NS == nil {
-			continue
-		}
-		wg.Go(func() {
-			res, err := s.journeys.Get(ctx, train, func(ctx context.Context) (*ns.Journey, error) { return s.NS.Journey(ctx, train) })
-			if err == nil {
-				out[i].Destination = res.Value.Destination
-			}
-			s.logExtra("journey", err)
-		})
-		wg.Go(func() {
-			res, err := s.compositions.Get(ctx, train, func(ctx context.Context) (*ns.Composition, error) { return s.NS.Composition(ctx, train) })
-			if err == nil && res.Value != nil && len(res.Value.Carriages) > 0 {
-				out[i].Carriages = res.Value.Carriages
-			}
-			s.logExtra("composition", err)
-		})
+		wg.Go(func() { out[i] = *s.describeTrain(ctx, c.Vehicle.Number(), c.Vehicle.Type, &c.DistanceM) })
 	}
 	wg.Wait()
+	return out
+}
+
+// describeTrain fetches one train's destination and carriages (through the caches) in
+// parallel. category and distanceM are optional; the journey's category is used when the
+// vehicle feed gave none.
+func (s *Server) describeTrain(ctx context.Context, train, category string, distanceM *float64) *candidateOut {
+	out := &candidateOut{Train: train, Category: category, Carriages: []string{}}
+	if distanceM != nil {
+		d := int(math.Round(*distanceM))
+		out.DistanceM = &d
+	}
+	if s.NS == nil {
+		return out
+	}
+	var (
+		wg          sync.WaitGroup
+		destination string
+		jCategory   string
+		carriages   []string
+	)
+	wg.Go(func() {
+		res, err := s.journey(ctx, train)
+		if err == nil {
+			destination, jCategory = res.Value.Destination, res.Value.Category
+		}
+		s.logExtra("journey", err)
+	})
+	wg.Go(func() {
+		res, err := s.composition(ctx, train)
+		if err == nil && res.Value != nil {
+			carriages = res.Value.Carriages
+		}
+		s.logExtra("composition", err)
+	})
+	wg.Wait()
+	out.Destination = destination
+	if out.Category == "" {
+		out.Category = jCategory
+	}
+	if len(carriages) > 0 {
+		out.Carriages = carriages
+	}
 	return out
 }
 
