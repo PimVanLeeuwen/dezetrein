@@ -1,14 +1,25 @@
 import { describe, expect, it } from 'vitest';
-import { inArea, spread, toFix } from './geo';
+import { inArea, readingTime, spread, toFix } from './geo';
 
 const pos = (c: Partial<GeolocationCoordinates>, timestamp = 1793966000123.4) =>
   ({ coords: { latitude: 52.09, longitude: 5.11, accuracy: 30, speed: null, heading: null, altitude: null, altitudeAccuracy: null, ...c }, timestamp }) as GeolocationPosition;
 
+const now = 1793966001000;
+
 describe('toFix', () => {
   it('keeps speed and heading only when reported', () => {
-    expect(toFix(pos({ speed: 33.2, heading: 41 }))).toEqual({ lat: 52.09, lng: 5.11, accuracy: 30, speed: 33.2, heading: 41, t: 1793966000123 });
-    expect(toFix(pos({ speed: 0, heading: NaN }))).toMatchObject({ speed: 0, heading: null });
-    expect(toFix(pos({ accuracy: 0 })).accuracy).toBe(1);
+    expect(toFix(pos({ speed: 33.2, heading: 41 }), now)).toEqual({ lat: 52.09, lng: 5.11, accuracy: 30, speed: 33.2, heading: 41, t: 1793966000123 });
+    expect(toFix(pos({ speed: 0, heading: NaN }), now)).toMatchObject({ speed: 0, heading: null });
+    expect(toFix(pos({ accuracy: 0 }), now).accuracy).toBe(1);
+  });
+});
+
+describe('readingTime', () => {
+  it('keeps a normal timestamp', () => expect(readingTime(now - 4000, now)).toBe(now - 4000));
+  it('converts microseconds (seen in WebKit)', () => expect(readingTime((now - 2000) * 1000, now)).toBe(now - 2000));
+  it('uses the arrival time for a reading far from the clock', () => {
+    expect(readingTime(now - 10 * 60_000, now)).toBe(now);
+    expect(readingTime(NaN, now)).toBe(now);
   });
 });
 

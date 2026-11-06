@@ -1,0 +1,28 @@
+# The full stack for the end-to-end tests (e2e/), built from the same Dockerfiles as production.
+# The backend runs in fixture mode: it replays backend/testdata/ns instead of calling NS, so the
+# suite needs no NS key and sees the same data on every run. Ports are bound to 127.0.0.1 only.
+name: dezetrein-e2e
+
+services:
+  backend:
+    build:
+      context: ./backend
+      args:
+        VERSION: e2e
+    environment:
+      NS_MODE: fixture
+      NS_FIXTURES: /fixtures
+    volumes:
+      - ./backend/testdata/ns:/fixtures:ro
+    ports:
+      - "127.0.0.1:6191:8080"
+
+  web:
+    build:
+      context: ./web
+    environment:
+      BACKEND_URL: http://backend:8080
+    depends_on:
+      - backend
+    ports:
+      - "127.0.0.1:6190:8080"

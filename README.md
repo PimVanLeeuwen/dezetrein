@@ -24,6 +24,7 @@ Your location is used only to find your train: it is sent in the body of one req
 | `backend/` | Go module: API server (`cmd/server`, `internal/api`), NS API client (`internal/ns`), shared NS caches (`internal/live`), train matcher (`internal/match`), geometry helpers (`internal/geo`), fixture recorder (`cmd/nsrecord`) |
 | `backend/testdata/ns/` | Recorded NS API responses, used as test fixtures |
 | `docs/` | Design notes: [how trains are matched](docs/matching.md) |
+| `e2e/` | End-to-end tests (Playwright) against the full stack in fixture mode |
 | `web/` | Website: React + TypeScript + Vite + Tailwind, served by nginx, which forwards `/api` to the backend |
 
 ## Development
@@ -60,6 +61,14 @@ cd backend && NS_API_KEY=... go run ./cmd/server
 API: `GET /api/trains/{trainNumber}`, `GET /api/stations/{code}/departures`, `POST /api/match` (body `{"fixes":[{"lat","lng","accuracy","speed","heading","t"}]}`, 1 to 5 fixes), `POST /api/carriage` (body `{"carriage":"9402","fixes":[...]}`, fixes optional), `POST /api/stations/nearest` (body `{"fixes":[...]}`, the 5 closest stations with departure times within 25 km), and `GET /healthz`. Every NS-backed answer carries `as_of` and `stale`.
 
 NS has no lookup by carriage number, so `/api/carriage` first checks the carriages seen in compositions and journeys the site fetched in the last 10 minutes (no extra NS calls), then, with a location, the compositions of the 12 nearest trains. Without a location and without a recent sighting it answers `"train": null` with `"located": false`, so the page can ask for a location or the journey number.
+
+End-to-end tests (Playwright, in desktop Chromium, Android Chromium and iPhone WebKit) build and start the whole stack from `docker-compose.e2e.yml`, with the backend in fixture mode, so they need no NS key:
+
+```bash
+cd e2e && npm ci && npx playwright install chromium webkit && npm test
+```
+
+What they cover is listed in [e2e/README.md](e2e/README.md).
 
 Docker images:
 

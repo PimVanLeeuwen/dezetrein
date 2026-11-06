@@ -18,10 +18,20 @@ export type Geo = {
 
 // toFix converts a browser reading. Speed and heading are null when the phone does not report
 // them (the API gives null, or NaN for the heading while standing still).
-export function toFix(pos: GeolocationPosition): Fix {
+export function toFix(pos: GeolocationPosition, now = Date.now()): Fix {
   const num = (v: number | null) => (v === null || Number.isNaN(v) ? null : v);
   const { latitude, longitude, accuracy, speed, heading } = pos.coords;
-  return { lat: latitude, lng: longitude, accuracy: Math.max(1, accuracy), speed: num(speed), heading: num(heading), t: Math.round(pos.timestamp) };
+  return { lat: latitude, lng: longitude, accuracy: Math.max(1, accuracy), speed: num(speed), heading: num(heading), t: readingTime(pos.timestamp, now) };
+}
+
+// readingTime is when the reading was taken, in milliseconds. The spec says milliseconds, but
+// WebKit has been seen reporting microseconds; and a reading far from the device clock is of no
+// use to the matcher. Such a time becomes the moment the reading arrived.
+export function readingTime(timestamp: number, now: number): number {
+  let t = timestamp;
+  if (t > now * 100) t = t / 1000;
+  if (!Number.isFinite(t) || Math.abs(t - now) > 60_000) t = now;
+  return Math.round(t);
 }
 
 export function inArea(f: Fix): boolean {

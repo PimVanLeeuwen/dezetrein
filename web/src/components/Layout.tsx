@@ -48,11 +48,19 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-dvh flex-col overflow-x-clip">
       <header className="relative z-10 mx-auto flex w-full max-w-2xl items-center justify-between gap-2 px-5 pt-4 pb-2 sm:px-6">
-        <Link to={paths.home} className={`-mx-1 rounded-lg px-1 py-2 ${focusRing}`} aria-label={t('nav.home')}>
+        {/* No aria-label: the accessible name is the visible "dezetrein" (WCAG 2.5.3, label in name). */}
+        <Link to={paths.home} className={`-mx-1 rounded-lg px-1 py-2 ${focusRing}`}>
           <Logo />
         </Link>
         <div className="flex items-center gap-2">
-          <button type="button" className={chip} onClick={() => setLang(lang === 'nl' ? 'en' : 'nl')} aria-label={t('lang.switchLabel')} lang={lang === 'nl' ? 'en' : 'nl'}>
+          {/* The name starts with the visible code, so "tap EN" works with voice control. */}
+          <button
+            type="button"
+            className={chip}
+            onClick={() => setLang(lang === 'nl' ? 'en' : 'nl')}
+            aria-label={`${lang === 'nl' ? 'EN' : 'NL'}, ${t('lang.switchLabel')}`}
+            lang={lang === 'nl' ? 'en' : 'nl'}
+          >
             {lang === 'nl' ? 'EN' : 'NL'}
           </button>
           <button

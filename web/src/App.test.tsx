@@ -40,10 +40,10 @@ describe('App', () => {
 
   it('switches to English and back', () => {
     render(<App />);
-    fireEvent.click(screen.getByRole('button', { name: 'Switch to English' }));
+    fireEvent.click(screen.getByRole('button', { name: /Switch to English/ }));
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Find the train you are on');
     expect(document.documentElement.lang).toBe('en');
-    fireEvent.click(screen.getByRole('button', { name: 'Wissel naar Nederlands' }));
+    fireEvent.click(screen.getByRole('button', { name: /Wissel naar Nederlands/ }));
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Vind de trein waarin je zit');
   });
 

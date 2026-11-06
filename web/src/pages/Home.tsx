@@ -22,7 +22,8 @@ function Stop({ stopRef, primary, title, hint, mark, delay, onClick }: { stopRef
     >
       <span className="flex-1">
         <span className="block font-display text-[1.4rem] leading-tight font-bold tracking-[-0.02em]">{title}</span>
-        <span className="mt-0.5 block text-base font-medium opacity-80">{hint}</span>
+        {/* Full strength, not faded: faded text on the green button falls below 4.5:1. */}
+        <span className={`mt-0.5 block text-base font-medium ${primary ? '' : 'text-dim'}`}>{hint}</span>
       </span>
       <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-full bg-current/12 text-xl font-bold">
         {mark}

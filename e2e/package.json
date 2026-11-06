@@ -1,0 +1,26 @@
+{
+  "name": "dezetrein-e2e",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "license": "GPL-3.0-only",
+  "description": "End-to-end (Playwright) tests for dezetrein, driving the built site against the backend in fixture mode (docker-compose.e2e.yml).",
+  "engines": {
+    "node": ">=26"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "typecheck": "tsc --noEmit",
+    "report": "playwright show-report",
+    "stack:up": "docker compose -f ../docker-compose.e2e.yml up --build -d",
+    "stack:down": "docker compose -f ../docker-compose.e2e.yml down"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.65.0",
+    "@types/node": "26.6.6",
+    "typescript": "7.0.2"
+  }
+}

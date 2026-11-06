@@ -108,6 +108,9 @@ jobs:
       - name: Audit the website
         working-directory: web
         run: npm audit --audit-level=critical
+      - name: Audit the end-to-end tests
+        working-directory: e2e
+        run: npm audit --audit-level=critical
 
   trivy-repo:
     name: Repository scan (Trivy)
