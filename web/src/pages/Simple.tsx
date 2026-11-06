@@ -2,16 +2,17 @@ import { focusRing } from '../components/Layout';
 import { Page } from '../components/Page';
 import { useI18n } from '../i18n/i18n';
 import { Link, paths } from '../lib/router';
+import { ContentPage } from '../components/Prose';
+import { about, privacy } from '../content/pages';
 
-// Placeholder pages: privacy and about come in step 5.
 export function Privacy() {
-  const { t } = useI18n();
-  return <Page title={t('privacy.title')} lead={<p>{t('privacy.soon')}</p>} />;
+  const { lang } = useI18n();
+  return <ContentPage content={privacy[lang]} />;
 }
 
 export function About() {
-  const { t } = useI18n();
-  return <Page title={t('about.title')} lead={<p>{t('about.soon')}</p>} />;
+  const { lang } = useI18n();
+  return <ContentPage content={about[lang]} />;
 }
 
 // The not-found page: the rail line runs into a buffer stop.
