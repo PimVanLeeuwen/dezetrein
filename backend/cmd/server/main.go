@@ -1,7 +1,7 @@
 // Command server runs the dezetrein API.
 //
-// Environment: LISTEN_ADDR (default :8080) and NS_API_KEY (without it the NS feed is off and
-// only the health check works). The version is set at build time with
+// Environment: LISTEN_ADDR (default :8080) and NS_API_KEY (without it the NS routes answer 503
+// and only the health check works). The version is set at build time with
 // -ldflags "-X main.version=...".
 package main
 
@@ -38,7 +38,7 @@ func run(log *slog.Logger) error {
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
-	app := &api.Server{Version: version}
+	app := &api.Server{Version: version, Log: log}
 	if key := os.Getenv("NS_API_KEY"); key != "" {
 		client := ns.NewClient(key)
 		poller := &live.Poller{
@@ -50,6 +50,7 @@ func run(log *slog.Logger) error {
 		}
 		go poller.Run(ctx)
 		app.Vehicles = poller
+		app.NS = client
 	} else {
 		log.Warn("NS_API_KEY is not set: the NS feed is off")
 	}
