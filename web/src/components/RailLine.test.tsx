@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 import { useRef } from 'react';
-import { describe, expect, it } from 'vitest';
+import { act } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { measure, RailLine } from './RailLine';
 
 describe('measure', () => {
@@ -48,5 +49,46 @@ describe('RailLine', () => {
   it('renders nothing in a layout without size (jsdom), and is hidden from assistive tech', () => {
     const { queryByTestId } = render(<Harness />);
     expect(queryByTestId('rail-line')).toBeNull();
+  });
+});
+
+describe('RailLine in a real layout', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+  });
+
+  it('draws a station and a spur per stop, hidden from assistive tech, and redraws on resize', async () => {
+    let width = 400;
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+      const r = (x: number, y: number, w: number, h: number) => ({ x, y, left: x, top: y, width: w, height: h, right: x + w, bottom: y + h, toJSON: () => ({}) }) as DOMRect;
+      return this.tagName === 'BUTTON' ? r(20, 100, width - 80, 80) : r(20, 0, width, 300);
+    });
+    const observers: { cb: () => void; disconnect: () => void }[] = [];
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        cb: () => void;
+        disconnect = vi.fn();
+        constructor(cb: () => void) {
+          this.cb = cb;
+          observers.push(this);
+        }
+        observe() {}
+      },
+    );
+    const { getByTestId, unmount } = render(<Harness />);
+    await act(async () => {});
+    const svg = getByTestId('rail-line');
+    expect(svg).toHaveAttribute('aria-hidden', 'true');
+    expect(svg.querySelectorAll('circle')).toHaveLength(3); // one station, the terminus, the train
+    expect(svg.querySelectorAll('line')).toHaveLength(1);
+    expect(svg.getAttribute('width')).toBe('400');
+
+    width = 320;
+    await act(async () => observers.forEach((o) => o.cb()));
+    expect(getByTestId('rail-line').getAttribute('width')).toBe('320');
+    unmount();
+    expect(observers[0]!.disconnect).toHaveBeenCalled();
   });
 });

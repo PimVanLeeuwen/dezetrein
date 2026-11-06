@@ -94,6 +94,18 @@ describe('Carriage search', () => {
     expect(screen.getByText(/geeft je locatie niet door/)).toBeInTheDocument();
   });
 
+  it('shows an API error after the nearby search', async () => {
+    const { g } = setup(missing(false), new ApiError(503, 'unavailable'));
+    await act(async () => type('9402'));
+    fireEvent.click(screen.getByRole('button', { name: /Gebruik mijn locatie/ }));
+    await act(async () => {
+      g.fix();
+      g.fix();
+    });
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Dat lukte niet');
+    expect(screen.getByText(/even niet beschikbaar/)).toBeInTheDocument();
+  });
+
   it('shows an API error', async () => {
     setup(new ApiError(429, 'rate_limited'));
     await act(async () => type('9402'));

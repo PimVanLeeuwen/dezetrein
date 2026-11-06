@@ -76,6 +76,14 @@ describe('Other ways', () => {
     expect(window.location.pathname).toBe('/trein/5639');
   });
 
+  it('goes back to the stations when departures fail to load', async () => {
+    const { g } = setup({ departures: async () => Promise.reject(new Error('down')) });
+    fireEvent.click(screen.getByRole('button', { name: 'Zoek stations in de buurt' }));
+    await act(async () => g.fix());
+    await act(async () => fireEvent.click(screen.getByRole('button', { name: /Utrecht Centraal/ })));
+    expect(screen.getByRole('button', { name: /Utrecht Vaartsche Rijn/ })).toBeInTheDocument();
+  });
+
   it('says when there is no station nearby', async () => {
     const { g } = setup({ nearestStations: async () => ({ ...stations, stations: [] }) });
     fireEvent.click(screen.getByRole('button', { name: 'Zoek stations in de buurt' }));
