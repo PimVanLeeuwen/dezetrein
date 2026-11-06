@@ -2,6 +2,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
 import { navigate } from './lib/router';
+import { tripFixture } from './test/trip';
 
 beforeEach(() => vi.spyOn(navigator, 'languages', 'get').mockReturnValue(['nl-NL']));
 afterEach(() => {
@@ -47,7 +48,6 @@ describe('App', () => {
   });
 
   it.each([
-    ['/trein/2450', 'Trein 2450'],
     ['/vind', 'Waar ben je?'],
     ['/privacy', 'Privacy'],
     ['/over', 'Over dezetrein'],
@@ -57,6 +57,14 @@ describe('App', () => {
     render(<App />);
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(heading);
     expect(document.title).toBe(`${heading} · dezetrein`);
+  });
+
+  it('loads the trip view for a train number', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(JSON.stringify(tripFixture), { status: 200, headers: { 'Content-Type': 'application/json' } })));
+    window.history.replaceState(null, '', '/trein/2450');
+    render(<App />);
+    expect(await screen.findByRole('heading', { level: 1 })).toHaveTextContent('naar Rotterdam Centraal');
+    vi.unstubAllGlobals();
   });
 
   it('navigates from the footer and moves focus to the new heading', () => {

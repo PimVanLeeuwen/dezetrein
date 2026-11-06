@@ -3,12 +3,7 @@ import { Page } from '../components/Page';
 import { useI18n } from '../i18n/i18n';
 import { Link, paths } from '../lib/router';
 
-// Placeholder pages: the trip view comes in step 3, privacy and about in step 5.
-export function Train({ train }: { train: string }) {
-  const { t } = useI18n();
-  return <Page title={t('train.title', { train })} lead={<p>{t('train.soon')}</p>} />;
-}
-
+// Placeholder pages: privacy and about come in step 5.
 export function Privacy() {
   const { t } = useI18n();
   return <Page title={t('privacy.title')} lead={<p>{t('privacy.soon')}</p>} />;

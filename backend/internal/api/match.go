@@ -160,8 +160,8 @@ func (s *Server) describe(ctx context.Context, cands []match.Candidate) []candid
 }
 
 // describeTrain fetches one train's destination and carriages (through the caches) in
-// parallel. category and distanceM are optional; the journey's category is used when the
-// vehicle feed gave none.
+// parallel. category (from the vehicle feed) and distanceM are optional; the journey's category
+// wins when there is one.
 func (s *Server) describeTrain(ctx context.Context, train, category string, distanceM *float64) *candidateOut {
 	out := &candidateOut{Train: train, Category: category, Carriages: []string{}}
 	if distanceM != nil {
@@ -193,7 +193,9 @@ func (s *Server) describeTrain(ctx context.Context, train, category string, dist
 	})
 	wg.Wait()
 	out.Destination = destination
-	if out.Category == "" {
+	// The journey's category is the precise one (ICD for an Intercity direct); the vehicle feed
+	// only knows IC, SPR and ARR.
+	if jCategory != "" {
 		out.Category = jCategory
 	}
 	if len(carriages) > 0 {
