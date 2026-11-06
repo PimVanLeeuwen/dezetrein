@@ -27,11 +27,17 @@ type NS interface {
 	Departures(ctx context.Context, station string) ([]ns.Departure, error)
 }
 
+// Feed is the shared vehicle list; *live.Poller implements it.
+type Feed interface {
+	Snapshot() live.Snapshot
+	History() []live.Snapshot
+}
+
 // Server holds what the handlers need. NS and Vehicles are nil when no NS key is configured;
 // the NS routes then answer 503.
 type Server struct {
 	Version  string
-	Vehicles interface{ Snapshot() live.Snapshot }
+	Vehicles Feed
 	NS       NS
 	// Log receives NS failures. It never gets locations, IP addresses or request bodies.
 	Log *slog.Logger

@@ -75,7 +75,12 @@ func (s *Server) match(w http.ResponseWriter, r *http.Request) {
 		writeError(w, http.StatusServiceUnavailable, "unavailable")
 		return
 	}
-	res := match.Match(fixes, snap.Vehicles)
+	hist := s.Vehicles.History()
+	frames := make([]match.Frame, len(hist))
+	for i, h := range hist {
+		frames[i] = match.Frame{At: h.AsOf, Vehicles: h.Vehicles}
+	}
+	res := match.Match(fixes, frames)
 	resp := matchResponse{Confidence: res.Confidence, Candidates: s.describe(r.Context(), res.Candidates), AsOf: snap.AsOf, Stale: snap.Stale}
 	if res.Confidence == match.High {
 		resp.Match = &resp.Candidates[0].Train

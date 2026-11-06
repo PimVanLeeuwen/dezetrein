@@ -29,7 +29,11 @@ type Poller struct {
 	MaxInterval time.Duration
 	// StaleAfter marks the snapshot stale when the last success is older (default 30 s).
 	StaleAfter time.Duration
-	Log        *slog.Logger
+	// Keep is how far back History reaches (default 5 minutes): the matcher compares each
+	// location fix with the snapshot taken closest to it, and works out a train's heading from
+	// its earlier positions.
+	Keep time.Duration
+	Log  *slog.Logger
 
 	// now and wait are the clock; tests replace them.
 	now  func() time.Time
@@ -37,12 +41,14 @@ type Poller struct {
 
 	mu       sync.RWMutex
 	snap     Snapshot
+	history  []Snapshot // successful snapshots within Keep, oldest first
 	failures int
 }
 
 func (p *Poller) interval() time.Duration    { return orDefault(p.Interval, 10*time.Second) }
 func (p *Poller) maxInterval() time.Duration { return orDefault(p.MaxInterval, time.Minute) }
 func (p *Poller) staleAfter() time.Duration  { return orDefault(p.StaleAfter, 30*time.Second) }
+func (p *Poller) keep() time.Duration        { return orDefault(p.Keep, 5*time.Minute) }
 
 func (p *Poller) clock() time.Time {
 	if p.now != nil {
@@ -66,7 +72,22 @@ func (p *Poller) Poll(ctx context.Context) error {
 	}
 	p.failures = 0
 	p.snap = Snapshot{Vehicles: v, AsOf: p.clock()}
+	cut := p.snap.AsOf.Add(-p.keep())
+	i := 0
+	for i < len(p.history) && p.history[i].AsOf.Before(cut) {
+		i++
+	}
+	// A fresh slice each time: callers of History may still hold the old one.
+	p.history = append(append(make([]Snapshot, 0, len(p.history)-i+1), p.history[i:]...), p.snap)
 	return nil
+}
+
+// History returns the successful snapshots of the last Keep, oldest first. The newest is the
+// current snapshot. The slice and the vehicles in it are shared and must not be modified.
+func (p *Poller) History() []Snapshot {
+	p.mu.RLock()
+	defer p.mu.RUnlock()
+	return p.history
 }
 
 // Snapshot returns the current vehicle list with its age.

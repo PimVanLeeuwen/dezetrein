@@ -279,3 +279,34 @@ func (c *Cache[T]) has(key string) bool {
 	_, ok := c.entries[key]
 	return ok
 }
+
+func TestPollerKeepsHistory(t *testing.T) {
+	clk := newClock()
+	n := 0
+	p := &Poller{now: clk.Now, Keep: time.Minute, Fetch: func(context.Context) ([]ns.Vehicle, error) {
+		n++
+		if n == 3 {
+			return nil, errNS
+		}
+		return []ns.Vehicle{{RitID: fmt.Sprint(n)}}, nil
+	}}
+	if h := p.History(); len(h) != 0 {
+		t.Fatalf("before the first poll: %d snapshots", len(h))
+	}
+	for range 8 { // one poll every 10 s; poll 3 fails
+		p.Poll(context.Background())
+		clk.Advance(10 * time.Second)
+	}
+	h := p.History()
+	// The last poll ran at +70 s, so +10 s and later are kept: polls 2, 4, 5, 6, 7, 8.
+	var got []string
+	for _, s := range h {
+		got = append(got, s.Vehicles[0].RitID)
+	}
+	if fmt.Sprint(got) != "[2 4 5 6 7 8]" {
+		t.Errorf("history %v, want [2 4 5 6 7 8]", got)
+	}
+	if !h[len(h)-1].AsOf.Equal(p.Snapshot().AsOf) {
+		t.Error("the newest history entry must be the current snapshot")
+	}
+}

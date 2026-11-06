@@ -11,10 +11,10 @@ import (
 	"github.com/PimVanLeeuwen/dezetrein/backend/internal/ns"
 )
 
-// Train 2450 (in the recordings) near Schiphol, another train 600 m away and one far off.
+// Train 2450 (in the recordings) near Schiphol, another train 150 m away and one far off.
 var matchFeed = fakeFeed{AsOf: testNow, Vehicles: []ns.Vehicle{
 	{RitID: "2450", Lat: 52.3091, Lng: 4.7622, Type: "ICD"},
-	{RitID: "4000", Lat: 52.3145, Lng: 4.7622, Type: "SPR"},
+	{RitID: "4000", Lat: 52.3105, Lng: 4.7622, Type: "SPR"},
 	{RitID: "800", Lat: 51.4400, Lng: 5.4800, Type: "IC"},
 }}
 

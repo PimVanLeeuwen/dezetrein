@@ -61,6 +61,14 @@ type fakeFeed live.Snapshot
 
 func (f fakeFeed) Snapshot() live.Snapshot { return live.Snapshot(f) }
 
+// History is the one snapshot, or nothing before the first poll.
+func (f fakeFeed) History() []live.Snapshot {
+	if f.AsOf.IsZero() {
+		return nil
+	}
+	return []live.Snapshot{live.Snapshot(f)}
+}
+
 func TestHealthzReportsVehicleFeed(t *testing.T) {
 	asOf := time.Date(2026, 11, 6, 12, 0, 0, 0, time.UTC)
 	for name, tc := range map[string]struct {
