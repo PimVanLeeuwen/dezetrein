@@ -8,11 +8,11 @@ import { TripView } from './Trip';
 beforeEach(() => vi.spyOn(navigator, 'languages', 'get').mockReturnValue(['nl']));
 afterEach(() => vi.restoreAllMocks());
 
-function view(state: TripState, now = at.betweenZuidAndSchiphol) {
+function view(state: TripState, now = at.betweenZuidAndSchiphol, mine?: string) {
   const reload = vi.fn();
   render(
     <I18nProvider>
-      <TripView train="2450" state={state} now={now} reload={reload} />
+      <TripView train="2450" state={state} now={now} reload={reload} mine={mine} />
     </I18nProvider>,
   );
   return reload;
@@ -75,6 +75,14 @@ describe('TripView', () => {
     expect(screen.getByRole('region', { name: 'Werkzaamheden: Utrecht - Leiden.', hidden: true })).toBeInTheDocument();
     expect(screen.getByRole('region', { name: 'Let op: Iets nieuws', hidden: true })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Meer bij NS', hidden: true })).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+
+  it('marks the trainset the user searched by', () => {
+    view(ready(), at.betweenZuidAndSchiphol, '3108');
+    const mine = screen.getByText('3108').closest('li')!;
+    expect(mine).toHaveAttribute('aria-current', 'true');
+    expect(mine).toHaveTextContent('jouw treinstel');
+    expect(screen.getByText('3304').closest('li')).not.toHaveAttribute('aria-current');
   });
 
   it('says how old the data is, and when it may be stale', () => {

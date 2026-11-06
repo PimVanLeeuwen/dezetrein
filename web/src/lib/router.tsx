@@ -5,6 +5,8 @@ import { useSyncExternalStore, type AnchorHTMLAttributes, type MouseEvent } from
 export type Route =
   | { name: 'home' }
   | { name: 'find' }
+  | { name: 'carriage' }
+  | { name: 'other' }
   | { name: 'train'; train: string }
   | { name: 'privacy' }
   | { name: 'about' }
@@ -18,6 +20,8 @@ export function parseRoute(path: string): Route {
   const train = trainPath.exec(path);
   if (train?.[1]) return { name: 'train', train: train[1] };
   if (path === '/vind' || path === '/vind/') return { name: 'find' };
+  if (path === '/treinstel' || path === '/treinstel/') return { name: 'carriage' };
+  if (path === '/zoek' || path === '/zoek/') return { name: 'other' };
   if (path === '/privacy' || path === '/privacy/') return { name: 'privacy' };
   if (path === '/over' || path === '/over/') return { name: 'about' };
   return { name: 'notFound' };
@@ -26,7 +30,10 @@ export function parseRoute(path: string): Route {
 export const paths = {
   home: '/',
   find: '/vind',
-  train: (n: string) => `/trein/${encodeURIComponent(n)}`,
+  carriage: '/treinstel',
+  other: '/zoek',
+  // carriage, when known (the user searched by it), is marked in the trip view.
+  train: (n: string, carriage?: string) => `/trein/${encodeURIComponent(n)}${carriage ? `?rijtuig=${encodeURIComponent(carriage)}` : ''}`,
   privacy: '/privacy',
   about: '/over',
 };

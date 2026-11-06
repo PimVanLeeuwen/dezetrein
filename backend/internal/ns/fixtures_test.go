@@ -179,3 +179,39 @@ func contains(list []string, s string) bool {
 	}
 	return false
 }
+
+func TestStationsFromRecording(t *testing.T) {
+	s, err := fixtureServer(t).Stations(context.Background())
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(s) < 700 {
+		t.Fatalf("got %d stations", len(s))
+	}
+	var ut *Station
+	nl := 0
+	for i := range s {
+		if s[i].Code == "UT" {
+			ut = &s[i]
+		}
+		if s[i].Country == "NL" {
+			nl++
+		}
+	}
+	if ut == nil || ut.Name != "Utrecht Centraal" || ut.UIC != "8400621" || !ut.Departures || ut.Lat < 52 || ut.Lng < 5 {
+		t.Errorf("unexpected Utrecht: %+v", ut)
+	}
+	if nl < 350 {
+		t.Errorf("%d Dutch stations, want about 400", nl)
+	}
+}
+
+func TestParseStationsBareAndInvalid(t *testing.T) {
+	s, err := ParseStations([]byte(`[{"code":"X","namen":{"lang":""},"lat":52,"lng":5},{"code":"","lat":1,"lng":1},{"code":"Z","lat":0,"lng":0}]`))
+	if err != nil || len(s) != 1 || s[0].Name != "X" {
+		t.Fatalf("got %+v %v", s, err)
+	}
+	if _, err := ParseStations([]byte(`<html>`)); err == nil {
+		t.Error("want an error")
+	}
+}

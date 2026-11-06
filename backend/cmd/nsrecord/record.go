@@ -138,3 +138,41 @@ func pickTrain(vs []ns.Vehicle) string {
 	}
 	return fallback
 }
+
+// StationPaths are the known paths of the station list, tried in order.
+var StationPaths = []string{"/reisinformatie-api/api/v2/stations", "/reisinformatie-api/api/v3/stations"}
+
+// RecordStations records only the station list into outDir and adds it to the existing
+// index.json (replacing an earlier "stations" entry), leaving the other recordings alone.
+func RecordStations(ctx context.Context, c *ns.Client, outDir string) (*Index, error) {
+	idx := &Index{}
+	if b, err := os.ReadFile(filepath.Join(outDir, "index.json")); err == nil {
+		if err := json.Unmarshal(b, idx); err != nil {
+			return nil, fmt.Errorf("index.json: %w", err)
+		}
+	} else if !errors.Is(err, os.ErrNotExist) {
+		return nil, err
+	} else if err := os.MkdirAll(outDir, 0o755); err != nil {
+		return nil, err
+	}
+	var got Entry
+	for _, p := range StationPaths {
+		e, res := record(ctx, c, outDir, call{"stations", p, nil})
+		got = e
+		if res != nil && res.Status != 404 {
+			break
+		}
+	}
+	kept := idx.Entries[:0]
+	for _, e := range idx.Entries {
+		if e.Name != "stations" {
+			kept = append(kept, e)
+		}
+	}
+	idx.Entries = append(kept, got)
+	b, err := json.MarshalIndent(idx, "", "  ")
+	if err != nil {
+		return idx, err
+	}
+	return idx, os.WriteFile(filepath.Join(outDir, "index.json"), append(b, '\n'), 0o644)
+}

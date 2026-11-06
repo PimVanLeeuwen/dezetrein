@@ -47,6 +47,13 @@
       "status": 200,
       "bytes": 27734,
       "file": "departures.json"
+    },
+    {
+      "name": "stations",
+      "path": "/reisinformatie-api/api/v2/stations",
+      "status": 200,
+      "bytes": 389140,
+      "file": "stations.json"
     }
   ]
 }

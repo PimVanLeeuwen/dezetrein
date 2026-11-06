@@ -105,3 +105,49 @@ func TestPickTrain(t *testing.T) {
 		t.Errorf("got %q, want empty", got)
 	}
 }
+
+func TestRecordStationsKeepsOtherRecordings(t *testing.T) {
+	c, seen := fakeNS(t)
+	dir := t.TempDir()
+	if _, err := Record(context.Background(), c, dir, "3045", "UT", time.Now()); err != nil {
+		t.Fatal(err)
+	}
+	before, _ := os.ReadFile(filepath.Join(dir, "journey.json"))
+	*seen = nil
+	for range 2 { // a second run replaces the stations entry rather than adding another
+		if _, err := RecordStations(context.Background(), c, dir); err != nil {
+			t.Fatal(err)
+		}
+	}
+	if len(*seen) != 2 || (*seen)[0] != StationPaths[0] {
+		t.Errorf("calls %v, want only the station list", *seen)
+	}
+	var idx Index
+	b, _ := os.ReadFile(filepath.Join(dir, "index.json"))
+	if err := json.Unmarshal(b, &idx); err != nil {
+		t.Fatal(err)
+	}
+	names := map[string]int{}
+	for _, e := range idx.Entries {
+		names[e.Name]++
+	}
+	if names["stations"] != 1 || names["journey"] != 1 || idx.Train != "3045" {
+		t.Errorf("index %+v", names)
+	}
+	after, _ := os.ReadFile(filepath.Join(dir, "journey.json"))
+	if string(before) != string(after) {
+		t.Error("the journey recording changed")
+	}
+	if _, err := os.Stat(filepath.Join(dir, "stations.json")); err != nil {
+		t.Error(err)
+	}
+}
+
+func TestRecordStationsIntoEmptyFolder(t *testing.T) {
+	c, _ := fakeNS(t)
+	dir := filepath.Join(t.TempDir(), "new")
+	idx, err := RecordStations(context.Background(), c, dir)
+	if err != nil || len(idx.Entries) != 1 {
+		t.Fatalf("%+v %v", idx, err)
+	}
+}

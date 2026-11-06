@@ -29,6 +29,15 @@ describe('App', () => {
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Waar ben je?');
   });
 
+  it('opens the carriage search and the other ways from the start screen', () => {
+    render(<App />);
+    fireEvent.click(screen.getByRole('button', { name: /Treinstelnummer/ }));
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Welk treinstel?');
+    act(() => navigate('/'));
+    fireEvent.click(screen.getByRole('link', { name: 'Andere manieren om je trein te vinden' }));
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Andere manieren');
+  });
+
   it('switches to English and back', () => {
     render(<App />);
     fireEvent.click(screen.getByRole('button', { name: 'Switch to English' }));

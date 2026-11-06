@@ -66,3 +66,56 @@ describe('browserGeo', () => {
     vi.unstubAllGlobals();
   });
 });
+
+describe('sample', () => {
+  it('resolves with the readings it wanted, then stops watching', async () => {
+    const { fakeGeo } = await import('../test/fakes');
+    const g = fakeGeo();
+    const p = (await import('./geo')).sample(g.geo, { want: 2, maxMs: 5000 });
+    g.fix({ lat: 52.1 });
+    g.fix({ accuracy: 99999 }); // too coarse: ignored
+    g.fix({ lat: 52.2 });
+    const got = await p;
+    expect(got.map((f) => f.lat)).toEqual([52.1, 52.2]);
+    expect(g.watching()).toBe(false);
+  });
+
+  it('resolves with what it has after the time limit, and rejects with nothing', async () => {
+    const { vi } = await import('vitest');
+    const { fakeGeo } = await import('../test/fakes');
+    const { sample } = await import('./geo');
+    vi.useFakeTimers();
+    const a = fakeGeo();
+    const one = sample(a.geo, { want: 3, maxMs: 1000 });
+    a.fix();
+    vi.advanceTimersByTime(1000);
+    expect(await one).toHaveLength(1);
+    const b = fakeGeo();
+    const none = sample(b.geo, { maxMs: 1000 });
+    vi.advanceTimersByTime(1000);
+    await expect(none).rejects.toThrow('timeout');
+    vi.useRealTimers();
+  });
+
+  it('rejects on denial, outside the network, and abort; copes with a synchronous error', async () => {
+    const { fakeGeo } = await import('../test/fakes');
+    const { sample } = await import('./geo');
+    const a = fakeGeo();
+    const denied = sample(a.geo);
+    a.fail('denied');
+    await expect(denied).rejects.toThrow('denied');
+    const b = fakeGeo();
+    const outside = sample(b.geo);
+    b.fix({ lat: 40, lng: -3 });
+    await expect(outside).rejects.toThrow('outside');
+    const c = fakeGeo();
+    const ctl = new AbortController();
+    const aborted = sample(c.geo, { signal: ctl.signal });
+    ctl.abort();
+    await expect(aborted).rejects.toThrow('aborted');
+    expect(c.watching()).toBe(false);
+    const stop = () => {};
+    const sync = { watch: (_: unknown, onError: (e: 'unsupported') => void) => (onError('unsupported'), stop), permission: async () => 'unknown' as const };
+    await expect(sample(sync)).rejects.toThrow('unsupported');
+  });
+});

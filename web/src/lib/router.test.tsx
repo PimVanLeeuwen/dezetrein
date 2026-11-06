@@ -18,10 +18,19 @@ describe('parseRoute', () => {
     ['/trein/abc', { name: 'notFound' }],
     ['/trein/', { name: 'notFound' }],
     ['/vind', { name: 'find' }],
+    ['/treinstel', { name: 'carriage' }],
+    ['/zoek', { name: 'other' }],
     ['/privacy', { name: 'privacy' }],
     ['/over', { name: 'about' }],
     ['/nope', { name: 'notFound' }],
   ])('%s', (path, want) => expect(parseRoute(path)).toEqual(want));
+});
+
+describe('paths', () => {
+  it('adds the searched trainset to a trip link', () => {
+    expect(paths.train('2450')).toBe('/trein/2450');
+    expect(paths.train('2450', '3304')).toBe('/trein/2450?rijtuig=3304');
+  });
 });
 
 describe('navigation', () => {

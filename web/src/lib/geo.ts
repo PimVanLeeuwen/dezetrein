@@ -59,3 +59,38 @@ export const browserGeo: Geo = {
     }
   },
 };
+
+// sample takes a few readings for a quick lookup (carriage number, nearest station): it resolves
+// with up to `want` readings, or with what it has after maxMs, and rejects when there are none.
+// The readings are the caller's to drop.
+export function sample(geo: Geo, { want = 3, maxMs = 8000, signal }: { want?: number; maxMs?: number; signal?: AbortSignal } = {}): Promise<Fix[]> {
+  return new Promise((resolve, reject) => {
+    const got: Fix[] = [];
+    let done = false;
+    let stop: () => void = () => {};
+    const timer: { id?: ReturnType<typeof setTimeout> } = {};
+    const end = (fn: () => void) => {
+      if (done) return;
+      done = true;
+      clearTimeout(timer.id);
+      stop();
+      fn();
+    };
+    // watch may report an error before it returns (an unsupported browser): stop it right after.
+    const unwatch = geo.watch(
+      (fix) => {
+        if (!inArea(fix)) return end(() => reject(new Error('outside')));
+        if (fix.accuracy > maxAccuracyM) return;
+        got.push(fix);
+        if (got.length >= want) end(() => resolve(got));
+      },
+      (err) => {
+        if (err !== 'unavailable') end(() => reject(new Error(err)));
+      },
+    );
+    if (done) return unwatch();
+    stop = unwatch;
+    timer.id = setTimeout(() => end(() => (got.length ? resolve(got) : reject(new Error('timeout')))), maxMs);
+    signal?.addEventListener('abort', () => end(() => reject(new DOMException('aborted', 'AbortError'))));
+  });
+}

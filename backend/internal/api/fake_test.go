@@ -22,6 +22,7 @@ type fakeNS struct {
 	crowding    ns.Crowding
 	disruptions []ns.Disruption
 	departures  []ns.Departure
+	stations    []ns.Station
 
 	mu    sync.Mutex
 	calls map[string]int
@@ -54,6 +55,9 @@ func newFakeNS(t *testing.T) *fakeNS {
 		t.Fatal(err)
 	}
 	if f.departures, err = ns.ParseDepartures(read("departures.json")); err != nil {
+		t.Fatal(err)
+	}
+	if f.stations, err = ns.ParseStations(read("stations.json")); err != nil {
 		t.Fatal(err)
 	}
 	return f
@@ -126,6 +130,13 @@ func (f *fakeNS) Departures(_ context.Context, station string) ([]ns.Departure, 
 		return nil, ns.ErrNotFound
 	}
 	return f.departures, nil
+}
+
+func (f *fakeNS) Stations(context.Context) ([]ns.Station, error) {
+	if err := f.call("stations"); err != nil {
+		return nil, err
+	}
+	return f.stations, nil
 }
 
 // testNow is the fixed time of the tests, an afternoon on the recording day.

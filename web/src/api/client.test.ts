@@ -64,12 +64,15 @@ describe('api client', () => {
     await client.carriage('9402', []);
     await client.carriage('9402', [fix]);
     await client.departures('UT');
+    await client.nearestStations([fix]);
     expect(calls[0]!.url).toBe('/api/match');
     expect(calls[0]!.init.method).toBe('POST');
     expect(JSON.parse(String(calls[0]!.init.body))).toEqual({ fixes: [fix] });
     expect(JSON.parse(String(calls[1]!.init.body))).toEqual({ carriage: '9402' });
     expect(JSON.parse(String(calls[2]!.init.body))).toEqual({ carriage: '9402', fixes: [fix] });
     expect(calls[3]!.url).toBe('/api/stations/UT/departures');
+    expect(calls[4]!.url).toBe('/api/stations/nearest');
+    expect(JSON.parse(String(calls[4]!.init.body))).toEqual({ fixes: [fix] });
     // Location goes in the body only, never in the URL.
     for (const c of calls) expect(c.url).not.toContain('52.09');
   });

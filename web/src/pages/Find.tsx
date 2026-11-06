@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { Candidate } from '../api/types';
 import { focusRing } from '../components/Layout';
 import { Page } from '../components/Page';
+import { primary, secondary, textLink } from '../components/ui';
 import { useFindTrain, type FailReason, type FindState } from '../flow/useFindTrain';
 import { useI18n } from '../i18n/i18n';
 import { nl, type MessageKey } from '../i18n/messages';
@@ -9,8 +10,6 @@ import type { Geo } from '../lib/geo';
 import { Link, navigate, paths } from '../lib/router';
 import type { Client } from '../api/client';
 
-const primary = `inline-flex min-h-14 w-full items-center justify-center gap-3 rounded-full bg-line px-6 font-display text-xl font-bold text-on-line shadow-[0_18px_36px_-18px_var(--line)] transition-transform active:scale-[0.98] sm:w-auto ${focusRing}`;
-const secondary = `inline-flex min-h-14 w-full items-center justify-center gap-2 rounded-full border-[1.5px] border-rule bg-card px-6 font-display text-lg font-bold text-ink transition-colors hover:border-line sm:w-auto ${focusRing}`;
 
 // useCategory turns a train category code (IC, SPR, ...) into its name, or the code itself when
 // the dictionary has none.
@@ -172,10 +171,15 @@ export function FindView({ state, start, reset }: { state: FindState; start: () 
             {t('find.retry')}
           </button>
         )}
-        <Link to={paths.home} className={secondary}>
-          {t('find.home')}
+        <Link to={paths.carriage} className={secondary}>
+          {t('find.byCarriage')}
         </Link>
       </Actions>
+      <p className="mt-6">
+        <Link to={paths.other} className={textLink}>
+          {t('find.otherWays')}
+        </Link>
+      </p>
     </Page>
   );
 }

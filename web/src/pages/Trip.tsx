@@ -22,7 +22,7 @@ function Skeleton() {
   );
 }
 
-function TripBody({ trip, now, refreshFailed }: { trip: TripData; now: number; refreshFailed: boolean }) {
+function TripBody({ trip, now, refreshFailed, mine }: { trip: TripData; now: number; refreshFailed: boolean; mine?: string }) {
   const { t } = useI18n();
   const [showPast, setShowPast] = useState(false);
   const p = progress(trip.stops, now);
@@ -92,7 +92,7 @@ function TripBody({ trip, now, refreshFailed }: { trip: TripData; now: number; r
         )}
       </div>
 
-      {trip.composition && <Carriages composition={trip.composition} />}
+      {trip.composition && <Carriages composition={trip.composition} mine={mine} />}
 
       <Notices list={trip.disruptions} />
 
@@ -105,7 +105,7 @@ function TripBody({ trip, now, refreshFailed }: { trip: TripData; now: number; r
   );
 }
 
-export function TripView({ train, state, now, reload }: { train: string; state: TripState; now: number; reload: () => void }) {
+export function TripView({ train, state, now, reload, mine }: { train: string; state: TripState; now: number; reload: () => void; mine?: string }) {
   const { t } = useI18n();
   if (state.status === 'loading') return <Skeleton />;
   if (state.status === 'notFound')
@@ -124,10 +124,15 @@ export function TripView({ train, state, now, reload }: { train: string; state: 
         </button>
       </Page>
     );
-  return <TripBody trip={state.trip} now={now} refreshFailed={state.refreshFailed} />;
+  return <TripBody trip={state.trip} now={now} refreshFailed={state.refreshFailed} mine={mine} />;
 }
 
 export function Trip({ train, client }: { train: string; client?: Pick<Client, 'trip'> }) {
   const { state, now, reload } = useTrip(train, client);
-  return <TripView train={train} state={state} now={now} reload={() => void reload()} />;
+  // ?rijtuig= is set when the user found the train by its trainset number.
+  const [mine] = useState(() => {
+    const c = new URLSearchParams(window.location.search).get('rijtuig') ?? '';
+    return /^[0-9]{1,6}$/.test(c) ? c : undefined;
+  });
+  return <TripView train={train} state={state} now={now} reload={() => void reload()} mine={mine} />;
 }

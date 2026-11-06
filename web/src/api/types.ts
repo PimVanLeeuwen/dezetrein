@@ -99,3 +99,7 @@ export type Departures = { station: string; departures: Departure[]; as_of: stri
 // A location reading as the backend accepts it: speed and heading are null when the phone does
 // not report them; t is the Geolocation API timestamp in milliseconds.
 export type Fix = { lat: number; lng: number; accuracy: number; speed: number | null; heading: number | null; t: number };
+
+export type NearbyStation = { code: string; name: string; distanceM: number };
+
+export type NearestStations = { stations: NearbyStation[]; as_of: string; stale: boolean };

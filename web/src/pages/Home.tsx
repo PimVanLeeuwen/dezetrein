@@ -3,10 +3,10 @@ import { focusRing } from '../components/Layout';
 import { Page } from '../components/Page';
 import { RailLine } from '../components/RailLine';
 import { useI18n } from '../i18n/i18n';
-import { navigate, paths } from '../lib/router';
+import { Link, navigate, paths } from '../lib/router';
+import { textLink } from '../components/ui';
 
-// The start screen: two ways in, both stations on the rail line. The carriage-number search
-// follows in step 4; until then its button says so and does nothing.
+// The start screen: two ways in, both stations on the rail line, and a link to the others.
 function Stop({ stopRef, primary, title, hint, mark, delay, onClick }: { stopRef: RefObject<HTMLButtonElement | null>; primary?: boolean; title: string; hint: string; mark: ReactNode; delay: number; onClick?: () => void }) {
   const look = primary
     ? 'border-line bg-line text-on-line shadow-[0_22px_44px_-20px_var(--line)]'
@@ -51,7 +51,12 @@ export function Home() {
         <RailLine container={area} stops={stops} />
         <div className="relative flex flex-col gap-4">
           <Stop stopRef={find} primary title={t('home.find')} hint={t('home.findHint')} mark="→" delay={200} onClick={() => navigate(paths.find)} />
-          <Stop stopRef={carriage} title={t('home.carriage')} hint={`${t('home.carriageHint')} · ${t('home.soon')}`} mark="#" delay={280} />
+          <Stop stopRef={carriage} title={t('home.carriage')} hint={t('home.carriageHint')} mark="#" delay={280} onClick={() => navigate(paths.carriage)} />
+          <p className="rise mt-1" style={{ animationDelay: '360ms' }}>
+            <Link to={paths.other} className={textLink}>
+              {t('home.otherWays')}
+            </Link>
+          </p>
         </div>
       </div>
       <p className="text-sm font-medium text-dim">{t('home.privacyNote')}</p>

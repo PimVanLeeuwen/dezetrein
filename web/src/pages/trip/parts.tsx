@@ -123,7 +123,8 @@ function carShape(i: number, n: number) {
   return 'rounded-md';
 }
 
-export function Carriages({ composition }: { composition: Composition }) {
+// mine is the trainset the user searched by: marked, so they can see it is the right train.
+export function Carriages({ composition, mine }: { composition: Composition; mine?: string }) {
   const { t } = useI18n();
   const n = composition.carriages.length;
   if (n === 0) return null;
@@ -141,9 +142,11 @@ export function Carriages({ composition }: { composition: Composition }) {
         {composition.carriages.map((c, i) => (
           <li
             key={`${c}-${i}`}
-            className={`grid h-14 min-w-0 flex-1 place-items-center border-2 border-ink bg-card font-mono text-lg font-bold ${carShape(i, n)}`}
+            className={`relative grid h-14 min-w-0 flex-1 place-items-center border-2 font-mono text-lg font-bold ${carShape(i, n)} ${c === mine ? 'border-line bg-line text-on-line' : 'border-ink bg-card'}`}
+            aria-current={c === mine ? 'true' : undefined}
           >
             {c}
+            {c === mine && <span className="absolute -bottom-6 font-sans text-xs font-bold tracking-wide text-line uppercase">{t('trip.yours')}</span>}
           </li>
         ))}
       </ol>

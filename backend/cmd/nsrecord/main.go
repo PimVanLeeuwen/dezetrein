@@ -21,6 +21,7 @@ func main() {
 	out := flag.String("out", "testdata/ns", "output folder")
 	train := flag.String("train", "", "train number to record (default: a moving intercity from the vehicle list)")
 	station := flag.String("station", "UT", "station code for the departures recording")
+	stationsOnly := flag.Bool("stations", false, "record only the station list, added to the existing index.json")
 	flag.Parse()
 
 	if err := envfile.Load(*envPath); err != nil {
@@ -35,7 +36,15 @@ func main() {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Minute)
 	defer cancel()
-	idx, err := Record(ctx, ns.NewClient(key), *out, *train, *station, time.Now())
+	var (
+		idx *Index
+		err error
+	)
+	if *stationsOnly {
+		idx, err = RecordStations(ctx, ns.NewClient(key), *out)
+	} else {
+		idx, err = Record(ctx, ns.NewClient(key), *out, *train, *station, time.Now())
+	}
 	if idx != nil {
 		fmt.Printf("train %q, station %q\n", idx.Train, idx.Station)
 		for _, e := range idx.Entries {

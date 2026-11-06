@@ -83,7 +83,8 @@ describe('FindView', () => {
     view({ phase: 'failed', reason });
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(title);
     expect(screen.queryByRole('button', { name: 'Probeer opnieuw' }) !== null).toBe(canRetry);
-    expect(screen.getByRole('link', { name: 'Naar de start' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Zoek op treinstelnummer' })).toHaveAttribute('href', '/treinstel');
+    expect(screen.getByRole('link', { name: 'Andere manieren' })).toHaveAttribute('href', '/zoek');
   });
 
   it('shows the API error message', () => {

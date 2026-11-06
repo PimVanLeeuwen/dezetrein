@@ -1,7 +1,7 @@
 // The API client. Every call goes to the same origin (/api, proxied by nginx). Transient
 // failures (no connection, 502, 503, 504) are retried twice with backoff; a 429 or any other
 // client error is not, so a busy backend is not pushed harder.
-import type { CarriageResult, Departures, Fix, MatchResult, Trip } from './types';
+import type { CarriageResult, Departures, Fix, MatchResult, NearestStations, Trip } from './types';
 
 // ApiError carries the backend's error code ({"error": "..."}), or "network" / "timeout" when
 // there was no answer, so the page can say what happened in the user's language.
@@ -83,6 +83,7 @@ export function createClient(opts: Options = {}) {
     match: (fixes: Fix[], signal?: AbortSignal) => request<MatchResult>('/api/match', post({ fixes }), signal),
     carriage: (carriage: string, fixes: Fix[], signal?: AbortSignal) =>
       request<CarriageResult>('/api/carriage', post(fixes.length ? { carriage, fixes } : { carriage }), signal),
+    nearestStations: (fixes: Fix[], signal?: AbortSignal) => request<NearestStations>('/api/stations/nearest', post({ fixes }), signal),
   };
 }
 

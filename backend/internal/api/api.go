@@ -25,6 +25,7 @@ type NS interface {
 	Crowding(ctx context.Context, train string) (ns.Crowding, error)
 	Disruptions(ctx context.Context) ([]ns.Disruption, error)
 	Departures(ctx context.Context, station string) ([]ns.Departure, error)
+	Stations(ctx context.Context) ([]ns.Station, error)
 }
 
 // Feed is the shared vehicle list; *live.Poller implements it.
@@ -50,6 +51,7 @@ type Server struct {
 	crowding     *live.Cache[ns.Crowding]
 	disruptions  *live.Cache[[]ns.Disruption]
 	departures   *live.Cache[[]ns.Departure]
+	stations     *live.Cache[[]ns.Station]
 	carriages    *carriageIndex
 	apiLimit     *limiter
 	matchLimit   *limiter
@@ -75,6 +77,7 @@ func (s *Server) init() {
 		s.crowding = &live.Cache[ns.Crowding]{TTL: crowdingTTL, NotFoundTTL: notFoundTTL}
 		s.disruptions = &live.Cache[[]ns.Disruption]{TTL: disruptionsTTL, MaxEntries: 1}
 		s.departures = &live.Cache[[]ns.Departure]{TTL: departuresTTL, NotFoundTTL: notFoundTTL}
+		s.stations = &live.Cache[[]ns.Station]{TTL: stationsTTL, MaxEntries: 1}
 		s.carriages = &carriageIndex{now: s.clock}
 		s.apiLimit = newLimiter(apiPerMinute, apiBurst, s.clock)
 		s.matchLimit = newLimiter(matchPerMinute, matchBurst, s.clock)
@@ -92,8 +95,8 @@ func (s *Server) clock() time.Time {
 }
 
 // Handler returns the routes with request logging, security headers and, on /api, per-client
-// rate limits. /api/match and /api/carriage, which can cost several NS calls, count against a
-// shared lookup limit as well as the general one.
+// rate limits. The location lookups (/api/match, /api/carriage, /api/stations/nearest) count
+// against a shared lookup limit as well as the general one.
 func (s *Server) Handler() http.Handler {
 	s.init()
 	api := func(h http.HandlerFunc) http.HandlerFunc { return limit(s.apiLimit, h) }
@@ -103,6 +106,7 @@ func (s *Server) Handler() http.Handler {
 	mux.HandleFunc("GET /api/stations/{code}/departures", api(s.stationDepartures))
 	mux.HandleFunc("POST /api/match", api(limit(s.matchLimit, s.match)))
 	mux.HandleFunc("POST /api/carriage", api(limit(s.matchLimit, s.carriage)))
+	mux.HandleFunc("POST /api/stations/nearest", api(limit(s.matchLimit, s.stationsNearest)))
 	mux.HandleFunc("/api/", api(func(w http.ResponseWriter, _ *http.Request) {
 		writeError(w, http.StatusNotFound, "not_found")
 	}))
