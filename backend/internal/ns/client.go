@@ -26,11 +26,25 @@ type Client struct {
 	BaseURL string
 	Key     string
 	HTTP    *http.Client
+	// Retries is how many times a transient failure (network error, HTTP 502, 503 or 504) is
+	// retried, waiting Backoff, then twice that, and so on. Zero means no retries. A 429 is
+	// never retried: NS asks us to slow down, so the caller serves its cached copy instead.
+	Retries int
+	Backoff time.Duration
+	// sleep waits between attempts; tests replace it so they run without real delays.
+	sleep func(ctx context.Context, d time.Duration) error
 }
 
-// NewClient returns a client for the NS gateway with a sane timeout.
+// NewClient returns a client for the NS gateway with a 10 s timeout per attempt and two
+// retries on transient failures.
 func NewClient(key string) *Client {
-	return &Client{BaseURL: DefaultBaseURL, Key: key, HTTP: &http.Client{Timeout: 10 * time.Second}}
+	return &Client{
+		BaseURL: DefaultBaseURL,
+		Key:     key,
+		HTTP:    &http.Client{Timeout: 10 * time.Second},
+		Retries: 2,
+		Backoff: 500 * time.Millisecond,
+	}
 }
 
 // Response is a raw NS response.
@@ -40,9 +54,51 @@ type Response struct {
 	Header http.Header
 }
 
-// Get fetches path with the given query and returns the raw response. A non-2xx status is
-// returned as an error together with the response, so callers can still record it.
+// Get fetches path with the given query and returns the raw response, retrying transient
+// failures (see Client.Retries). A non-2xx status is returned as an error together with the
+// response, so callers can still record it.
 func (c *Client) Get(ctx context.Context, path string, query url.Values) (*Response, error) {
+	wait := c.Backoff
+	for attempt := 0; ; attempt++ {
+		res, err := c.get(ctx, path, query)
+		if err == nil || attempt >= c.Retries || !transient(res, err) || ctx.Err() != nil {
+			return res, err
+		}
+		if serr := c.pause(ctx, wait); serr != nil {
+			return res, err
+		}
+		wait *= 2
+	}
+}
+
+// transient reports whether a failed attempt is worth retrying: a network error or a gateway
+// error from NS. Client errors (4xx, including 429) and other server errors are not.
+func transient(res *Response, err error) bool {
+	if res == nil {
+		return err != nil
+	}
+	switch res.Status {
+	case http.StatusBadGateway, http.StatusServiceUnavailable, http.StatusGatewayTimeout:
+		return true
+	}
+	return false
+}
+
+func (c *Client) pause(ctx context.Context, d time.Duration) error {
+	if c.sleep != nil {
+		return c.sleep(ctx, d)
+	}
+	t := time.NewTimer(d)
+	defer t.Stop()
+	select {
+	case <-ctx.Done():
+		return ctx.Err()
+	case <-t.C:
+		return nil
+	}
+}
+
+func (c *Client) get(ctx context.Context, path string, query url.Values) (*Response, error) {
 	u := c.BaseURL + path
 	if len(query) > 0 {
 		u += "?" + query.Encode()
