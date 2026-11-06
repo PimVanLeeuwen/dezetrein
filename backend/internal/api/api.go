@@ -44,6 +44,8 @@ type Server struct {
 	crowding     *live.Cache[ns.Crowding]
 	disruptions  *live.Cache[[]ns.Disruption]
 	departures   *live.Cache[[]ns.Departure]
+	apiLimit     *limiter
+	matchLimit   *limiter
 }
 
 // Cache lifetimes. Times and delays change by the minute; a composition changes only at a stop
@@ -66,6 +68,8 @@ func (s *Server) init() {
 		s.crowding = &live.Cache[ns.Crowding]{TTL: crowdingTTL, NotFoundTTL: notFoundTTL}
 		s.disruptions = &live.Cache[[]ns.Disruption]{TTL: disruptionsTTL, MaxEntries: 1}
 		s.departures = &live.Cache[[]ns.Departure]{TTL: departuresTTL, NotFoundTTL: notFoundTTL}
+		s.apiLimit = newLimiter(apiPerMinute, apiBurst, s.clock)
+		s.matchLimit = newLimiter(matchPerMinute, matchBurst, s.clock)
 		if s.Log == nil {
 			s.Log = slog.New(slog.NewTextHandler(io.Discard, nil))
 		}
@@ -79,18 +83,51 @@ func (s *Server) clock() time.Time {
 	return time.Now()
 }
 
-// Handler returns the routes with security headers applied.
+// Handler returns the routes with request logging, security headers and, on /api, per-client
+// rate limits. /api/match counts against both its own limit and the general one.
 func (s *Server) Handler() http.Handler {
 	s.init()
+	api := func(h http.HandlerFunc) http.HandlerFunc { return limit(s.apiLimit, h) }
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", s.healthz)
-	mux.HandleFunc("GET /api/trains/{train}", s.train)
-	mux.HandleFunc("GET /api/stations/{code}/departures", s.stationDepartures)
-	mux.HandleFunc("POST /api/match", s.match)
-	mux.HandleFunc("/api/", func(w http.ResponseWriter, _ *http.Request) {
+	mux.HandleFunc("GET /api/trains/{train}", api(s.train))
+	mux.HandleFunc("GET /api/stations/{code}/departures", api(s.stationDepartures))
+	mux.HandleFunc("POST /api/match", api(limit(s.matchLimit, s.match)))
+	mux.HandleFunc("/api/", api(func(w http.ResponseWriter, _ *http.Request) {
 		writeError(w, http.StatusNotFound, "not_found")
+	}))
+	return headers(s.logRequests(mux))
+}
+
+// statusRecorder remembers the status code a handler wrote, for the request log.
+type statusRecorder struct {
+	http.ResponseWriter
+	status int
+}
+
+func (r *statusRecorder) WriteHeader(code int) {
+	r.status = code
+	r.ResponseWriter.WriteHeader(code)
+}
+
+// logRequests writes one line per request with the route pattern (for example
+// "GET /api/trains/{train}"), never the actual path or query, and no IP address, headers or
+// body. Health checks log at debug level, so the monitor's polling does not fill the log.
+func (s *Server) logRequests(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		start := s.clock()
+		rec := &statusRecorder{ResponseWriter: w, status: http.StatusOK}
+		next.ServeHTTP(rec, r)
+		route := r.Pattern // set by the mux on this request while routing
+		if route == "" {
+			route = "unmatched"
+		}
+		level := slog.LevelInfo
+		if route == "GET /healthz" {
+			level = slog.LevelDebug
+		}
+		s.Log.Log(r.Context(), level, "request", "route", route, "status", rec.status, "ms", s.clock().Sub(start).Milliseconds())
 	})
-	return headers(mux)
 }
 
 // healthz is a liveness check: it answers 200 while the process runs, and reports the vehicle
@@ -134,6 +171,8 @@ func headers(next http.Handler) http.Handler {
 		h.Set("X-Content-Type-Options", "nosniff")
 		h.Set("Referrer-Policy", "no-referrer")
 		h.Set("Cache-Control", "no-store")
+		// The API only ever returns JSON: nothing in it may load, run or be framed.
+		h.Set("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'")
 		next.ServeHTTP(w, r)
 	})
 }

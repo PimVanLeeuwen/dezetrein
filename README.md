@@ -13,13 +13,13 @@
 
 ## Privacy
 
-Your location is used only to find your train: it is sent in the body of one request, used in memory and then dropped. It is never stored or logged. The site sets no cookies and uses no analytics or third-party trackers.
+Your location is used only to find your train: it is sent in the body of one request, used in memory and then dropped. It is never stored or logged. The server logs one line per request with the route and status only, never the address you asked for, your IP address or anything you sent. Rate limits are counted in memory and forgotten when idle. The site sets no cookies and uses no analytics or third-party trackers.
 
 ## Repository layout
 
 | Path | What it is |
 |------|------------|
-| `backend/` | Go module: API server (`cmd/server`, `internal/api`), NS API client (`internal/ns`), geometry helpers (`internal/geo`), fixture recorder (`cmd/nsrecord`) |
+| `backend/` | Go module: API server (`cmd/server`, `internal/api`), NS API client (`internal/ns`), shared NS caches (`internal/live`), train matcher (`internal/match`), geometry helpers (`internal/geo`), fixture recorder (`cmd/nsrecord`) |
 | `backend/testdata/ns/` | Recorded NS API responses, used as test fixtures |
 | `web/` | Website: React + TypeScript + Vite + Tailwind, served by nginx, which forwards `/api` to the backend |
 
@@ -35,7 +35,26 @@ cd backend && go vet ./... && go test -race ./...
 cd web && npm ci && npm run lint && npm run test:run && npm run build
 ```
 
-Run both locally: `go run ./cmd/server` in `backend/` (API on :8080), and `npm run dev` in `web/` (site on :5173, proxies `/api` to :8080).
+Run both locally: the API in `backend/` and `npm run dev` in `web/` (site on :5173, proxies `/api` to :8080). Without an NS key, run the API on the recorded responses (train 2450, station UT):
+
+```bash
+cd backend && NS_MODE=fixture go run ./cmd/server
+```
+
+With a key, the API calls NS live (`NS_API_KEY` in the environment):
+
+```bash
+cd backend && NS_API_KEY=... go run ./cmd/server
+```
+
+| Variable | Default | Meaning |
+|----------|---------|---------|
+| `LISTEN_ADDR` | `:8080` | Address the API listens on |
+| `NS_MODE` | `live` | `live` calls NS with `NS_API_KEY` (without a key only `/healthz` works); `fixture` replays `NS_FIXTURES` and needs no key |
+| `NS_API_KEY` | | NS API portal key (live mode) |
+| `NS_FIXTURES` | `testdata/ns` | Folder with recordings from `cmd/nsrecord` (fixture mode) |
+
+API: `GET /api/trains/{trainNumber}`, `GET /api/stations/{code}/departures`, `POST /api/match` (body `{"fixes":[{"lat","lng","accuracy","speed","heading","t"}]}`, 1 to 5 fixes), and `GET /healthz`. Every NS-backed answer carries `as_of` and `stale`.
 
 Docker images:
 
