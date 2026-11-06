@@ -16,4 +16,7 @@ COPY --from=build /out/server /server
 USER 65532:65532
 ENV LISTEN_ADDR=:8080
 EXPOSE 8080
+# Liveness: the binary asks itself for /healthz (no shell or curl in scratch). A stale NS feed is
+# for the monitor to report, not a reason to mark the container unhealthy.
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 CMD ["/server", "-healthcheck"]
 ENTRYPOINT ["/server"]

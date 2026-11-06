@@ -25,6 +25,7 @@ Your location is used only to find your train: it is sent in the body of one req
 | `backend/testdata/ns/` | Recorded NS API responses, used as test fixtures |
 | `docs/` | Design notes: [how trains are matched](docs/matching.md) |
 | `e2e/` | End-to-end tests (Playwright) against the full stack in fixture mode |
+| `deploy/` | Production compose example and its `.env.example` |
 | `web/` | Website: React + TypeScript + Vite + Tailwind, served by nginx, which forwards `/api` to the backend |
 
 ## Development
@@ -87,6 +88,15 @@ To refresh the NS fixtures, get a free key at [apiportal.ns.nl](https://apiporta
 ```bash
 cd backend && go run ./cmd/nsrecord
 ```
+
+## Deployment
+
+CI publishes two images to GitHub Container Registry after approval on the `production` environment: `ghcr.io/pimvanleeuwen/dezetrein-backend` and `ghcr.io/pimvanleeuwen/dezetrein-web`, each tagged `:latest`, `:v<version>` and `:main-<commit>`. [`deploy/docker-compose.example.yml`](deploy/docker-compose.example.yml) runs them: copy it with [`deploy/.env.example`](deploy/.env.example), fill in the NS key, and start with `docker compose up -d`.
+
+- Only the web container is published, bound to one address (`WEB_BIND`), for the tunnel or reverse proxy in front. The backend is reached only through the web container's `/api`.
+- Both images have a Docker health check. The backend's is `server -healthcheck`, a liveness check; whether the NS data is fresh is in the `vehicles` part of `/healthz` (`"stale": false`), for a monitor on the same network to check at `http://backend:8080/healthz`. The public `/healthz` is not forwarded by the web container.
+- With Watchtower running with `--label-enable`, each approved publish of `:latest` is deployed; pin a tag with `BACKEND_IMAGE` and `WEB_IMAGE` to hold or roll back.
+- The privacy page promises no cookies and no third-party requests. In front of the site, keep any feature off that adds cookies or scripts (for Cloudflare: Bot Fight Mode, Web Analytics, Rocket Loader, Email Address Obfuscation, Zaraz), and do not cache `/api/*` at the edge.
 
 ## Data and affiliation
 

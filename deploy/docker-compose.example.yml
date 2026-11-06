@@ -1,0 +1,45 @@
+# Production stack for dezetrein: copy this file and .env.example next to each other on the
+# server, fill in .env, and start with: docker compose up -d
+#
+# The images come from GitHub Container Registry and are published by CI after approval on the
+# `production` environment. With Watchtower running (with --label-enable), each approved publish
+# of :latest is pulled and deployed; to hold or roll back a release, pin a tag instead, for
+# example ghcr.io/pimvanleeuwen/dezetrein-web:v1.2.3, via BACKEND_IMAGE and WEB_IMAGE.
+
+services:
+  backend:
+    image: ${BACKEND_IMAGE:-ghcr.io/pimvanleeuwen/dezetrein-backend:latest}
+    restart: unless-stopped
+    environment:
+      NS_API_KEY: ${NS_API_KEY:?set NS_API_KEY in .env}
+      TZ: Europe/Amsterdam
+    # Not published: only the web container reaches it, on this stack's own network. A monitor
+    # on the same host can join that network and check http://backend:8080/healthz.
+    expose:
+      - "8080"
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    # The Go binary writes nothing and needs no privileges.
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 128m
+
+  web:
+    image: ${WEB_IMAGE:-ghcr.io/pimvanleeuwen/dezetrein-web:latest}
+    restart: unless-stopped
+    environment:
+      BACKEND_URL: http://backend:8080
+      TZ: Europe/Amsterdam
+    depends_on:
+      backend:
+        condition: service_healthy
+    # The site's only way in. Bind it to the address the tunnel (or reverse proxy) connects
+    # from, not to every interface, so the site is not reachable over plain HTTP on the LAN.
+    ports:
+      - "${WEB_BIND:-127.0.0.1}:${WEB_PORT:-8080}:8080"
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 64m

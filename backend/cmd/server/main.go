@@ -8,13 +8,18 @@
 //	             NS_FIXTURES (default testdata/ns) and needs no key.
 //
 // The version is set at build time with -ldflags "-X main.version=...".
+//
+// "server -healthcheck" asks a running server on LISTEN_ADDR for /healthz and exits 0 when it
+// answers, else 1: the Docker HEALTHCHECK, as the scratch image has no shell or curl.
 package main
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"log/slog"
+	"net"
 	"net/http"
 	"os"
 	"os/signal"
@@ -29,6 +34,13 @@ import (
 var version = "dev"
 
 func main() {
+	if len(os.Args) > 1 && os.Args[1] == "-healthcheck" {
+		if err := healthcheck(listenAddr(os.Getenv), &http.Client{Timeout: 3 * time.Second}); err != nil {
+			fmt.Fprintln(os.Stderr, "unhealthy:", err)
+			os.Exit(1)
+		}
+		return
+	}
 	log := slog.New(slog.NewJSONHandler(os.Stdout, nil))
 	if err := run(log); err != nil {
 		log.Error("server stopped", "err", err)
@@ -37,10 +49,7 @@ func main() {
 }
 
 func run(log *slog.Logger) error {
-	addr := os.Getenv("LISTEN_ADDR")
-	if addr == "" {
-		addr = ":8080"
-	}
+	addr := listenAddr(os.Getenv)
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
 	defer stop()
 
@@ -111,4 +120,36 @@ func nsClient(getenv func(string) string) (*ns.Client, error) {
 	default:
 		return nil, fmt.Errorf("NS_MODE %q: want live or fixture", mode)
 	}
+}
+
+func listenAddr(getenv func(string) string) string {
+	if a := getenv("LISTEN_ADDR"); a != "" {
+		return a
+	}
+	return ":8080"
+}
+
+// healthcheck asks the server listening on addr for /healthz. It checks liveness only: a stale
+// NS feed is reported in the body for the monitor, not treated as unhealthy here, so a slow NS
+// never gets the container flagged or restarted.
+func healthcheck(addr string, client *http.Client) error {
+	host, port, err := net.SplitHostPort(addr)
+	if err != nil {
+		return fmt.Errorf("LISTEN_ADDR %q: %w", addr, err)
+	}
+	if host == "" || host == "0.0.0.0" || host == "::" {
+		host = "127.0.0.1"
+	}
+	res, err := client.Get("http://" + net.JoinHostPort(host, port) + "/healthz")
+	if err != nil {
+		return err
+	}
+	defer res.Body.Close()
+	var body struct {
+		OK bool `json:"ok"`
+	}
+	if res.StatusCode != http.StatusOK || json.NewDecoder(res.Body).Decode(&body) != nil || !body.OK {
+		return fmt.Errorf("/healthz answered HTTP %d", res.StatusCode)
+	}
+	return nil
 }

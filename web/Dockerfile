@@ -22,3 +22,5 @@ RUN rm -f /etc/nginx/conf.d/default.conf \
 ENV BACKEND_URL=http://backend:8080
 USER nginx
 EXPOSE 8080
+# Liveness: nginx serves the site (busybox wget ships with the alpine image).
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 CMD wget -q -O /dev/null http://127.0.0.1:8080/ || exit 1
