@@ -2,7 +2,7 @@
 // the live vehicle list. It is a pure function: no I/O, no clock, no logging, so location never
 // leaves it.
 //
-// The method was validated in a field test on real trips:
+// The method was validated in a field test on real trips (docs/matching.md):
 //
 //  1. Dead reckoning. An NS position is old when it arrives: the accuracy field grows with its
 //     age, and the feed lags reality by about 6 s. Each train is pushed forward by its speed

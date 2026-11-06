@@ -11,6 +11,8 @@
 - **Or search by carriage number.** The carriage (trainset) number, for example 9402, is printed inside every train.
 - **Show the trip.** Stops with planned and expected times, platforms, crowding and composition, refreshed while the page is open. Every answer says how old the data is.
 
+How the matching works, and how well it does on real trips, is described in [docs/matching.md](docs/matching.md).
+
 ## Privacy
 
 Your location is used only to find your train: it is sent in the body of one request, used in memory and then dropped. It is never stored or logged. The server logs one line per request with the route and status only, never the address you asked for, your IP address or anything you sent. Rate limits are counted in memory and forgotten when idle. The site sets no cookies and uses no analytics or third-party trackers.
@@ -21,6 +23,7 @@ Your location is used only to find your train: it is sent in the body of one req
 |------|------------|
 | `backend/` | Go module: API server (`cmd/server`, `internal/api`), NS API client (`internal/ns`), shared NS caches (`internal/live`), train matcher (`internal/match`), geometry helpers (`internal/geo`), fixture recorder (`cmd/nsrecord`) |
 | `backend/testdata/ns/` | Recorded NS API responses, used as test fixtures |
+| `docs/` | Design notes: [how trains are matched](docs/matching.md) |
 | `web/` | Website: React + TypeScript + Vite + Tailwind, served by nginx, which forwards `/api` to the backend |
 
 ## Development
