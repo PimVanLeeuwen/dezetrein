@@ -16,7 +16,7 @@ describe('App', () => {
     render(<App />);
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Vind de trein waarin je zit');
     expect(screen.getByRole('button', { name: /Vind mijn trein/ })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Zoek op treinstelnummer/ })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Treinstelnummer/ })).toBeInTheDocument();
     expect(screen.getByText(/niet verbonden aan NS/)).toBeInTheDocument();
     expect(document.title).toBe('Vind de trein waarin je zit · dezetrein');
   });

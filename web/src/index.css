@@ -3,8 +3,158 @@
 /* Dark mode follows the .dark class on <html>, set from the system setting or the user's choice. */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* Self-hosted fonts (OFL, licences in src/fonts), Latin subset. Variable: one file per family. */
+@font-face {
+  font-family: 'Bricolage Grotesque';
+  src: url('./fonts/bricolage-grotesque-latin.woff2') format('woff2');
+  font-weight: 500 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Atkinson Hyperlegible Next';
+  src: url('./fonts/atkinson-hyperlegible-next-latin.woff2') format('woff2');
+  font-weight: 400 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Atkinson Hyperlegible Mono';
+  src: url('./fonts/atkinson-hyperlegible-mono-latin.woff2') format('woff2');
+  font-weight: 400 700;
+  font-display: swap;
+}
+
+/*
+ * The rail line palette. Paper by day, night-green by night. Components use the semantic
+ * utilities (bg-paper, text-ink, border-rule, ...), which follow the theme without dark: variants.
+ * Contrast (WCAG 2.2 AA) is checked in src/lib/contrast.test.ts.
+ */
+:root {
+  --paper: #f4efe4;
+  --card: #fffaf0;
+  --ink: #14201b;
+  --dim: #545f58;
+  --rule: #e2d9c6;
+  --line: #0b6e4f;
+  --line-soft: #b9d8c8;
+  --on-line: #fffaf0;
+  --late: #b8321a;
+  --on-late: #ffffff;
+  --sun: #f2b53a;
+  --grain-blend: multiply;
+  --grain-opacity: 0.5;
+  color-scheme: light;
+}
+.dark {
+  --paper: #0e1915;
+  --card: #15241e;
+  --ink: #f1ead9;
+  --dim: #a3b5ab;
+  --rule: #263b31;
+  --line: #5fd1a6;
+  --line-soft: #24493b;
+  --on-line: #0b1611;
+  --late: #ff8a6e;
+  --on-late: #1a0703;
+  --sun: #f6c35b;
+  --grain-blend: screen;
+  --grain-opacity: 0.22;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-dim: var(--dim);
+  --color-rule: var(--rule);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-on-line: var(--on-line);
+  --color-late: var(--late);
+  --color-on-late: var(--on-late);
+  --color-sun: var(--sun);
+}
+
 @theme {
-  --color-brand: #0b6e4f;
-  --color-brand-light: #5fd1a6;
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Bricolage Grotesque', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Atkinson Hyperlegible Next', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Atkinson Hyperlegible Mono', ui-monospace, monospace;
+}
+
+html {
+  background: var(--paper);
+}
+
+body {
+  @apply bg-paper font-sans text-ink antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Paper grain: a faint noise texture over everything, part of the printed-timetable feel. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: var(--grain-blend);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .35 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--line);
+  color: var(--on-line);
+}
+
+/* The rail line draws itself, then the train rides along it. */
+.rail-track {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: rail-draw 1.4s cubic-bezier(0.6, 0, 0.2, 1) 0.15s forwards;
+}
+@keyframes rail-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.rail-train {
+  offset-rotate: 0deg;
+  offset-distance: 0%;
+  animation: rail-ride 7s cubic-bezier(0.45, 0, 0.3, 1) 1.4s infinite;
+}
+@keyframes rail-ride {
+  0% {
+    offset-distance: 0%;
+  }
+  65%,
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+/* Content rises in once, staggered, on the first view of a page. It starts partly visible, so
+   text is never hidden if a browser skips or pauses the animation. */
+.rise {
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes rise {
+  from {
+    opacity: 0.35;
+    transform: translateY(14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail-track {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .rail-train {
+    animation: none;
+    offset-distance: 100%;
+  }
+  .rise {
+    animation: none;
+  }
 }

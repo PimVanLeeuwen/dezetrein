@@ -5,8 +5,9 @@ import { nextTheme, useTheme, type Theme } from '../lib/theme';
 
 export function Logo() {
   return (
-    <span className="text-xl font-bold tracking-tight">
-      deze<span className="text-brand dark:text-brand-light">trein</span>
+    <span className="flex items-center gap-2.5 font-display text-2xl font-extrabold tracking-[-0.03em]">
+      <span aria-hidden="true" className="size-3 rounded-full bg-line ring-4 ring-line-soft" />
+      dezetrein
     </span>
   );
 }
@@ -30,32 +31,33 @@ function ThemeIcon({ theme }: { theme: Theme }) {
     );
   return (
     <svg {...common}>
-      <rect x="3" y="4" width="18" height="12" rx="2" />
-      <path d="M8 20h8M12 16v4" />
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor" stroke="none" />
     </svg>
   );
 }
 
-const control =
-  'inline-flex min-h-11 min-w-11 items-center justify-center gap-2 rounded-full px-3 text-sm font-medium text-neutral-700 hover:bg-neutral-200/70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand dark:text-neutral-200 dark:hover:bg-neutral-800 dark:focus-visible:outline-brand-light';
+export const focusRing = 'focus-visible:outline-3 focus-visible:outline-offset-3 focus-visible:outline-line';
+
+const chip = `inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-rule bg-card px-3.5 text-sm font-bold text-ink transition-colors hover:border-line ${focusRing}`;
 
 export function Layout({ children }: { children: ReactNode }) {
   const { t, lang, setLang } = useI18n();
   const [theme, setTheme] = useTheme();
   const next = nextTheme(theme);
   return (
-    <div className="flex min-h-dvh flex-col bg-neutral-50 font-sans text-neutral-900 dark:bg-neutral-950 dark:text-neutral-100">
-      <header className="mx-auto flex w-full max-w-2xl items-center justify-between gap-2 px-4 py-3">
-        <Link to={paths.home} className="rounded-md px-1 py-2 focus-visible:outline-2 focus-visible:outline-brand dark:focus-visible:outline-brand-light" aria-label={t('nav.home')}>
+    <div className="flex min-h-dvh flex-col overflow-x-clip">
+      <header className="relative z-10 mx-auto flex w-full max-w-2xl items-center justify-between gap-2 px-5 pt-4 pb-2 sm:px-6">
+        <Link to={paths.home} className={`-mx-1 rounded-lg px-1 py-2 ${focusRing}`} aria-label={t('nav.home')}>
           <Logo />
         </Link>
-        <div className="flex items-center gap-1">
-          <button type="button" className={control} onClick={() => setLang(lang === 'nl' ? 'en' : 'nl')} aria-label={t('lang.switchLabel')} lang={lang === 'nl' ? 'en' : 'nl'}>
-            {t('lang.switch')}
+        <div className="flex items-center gap-2">
+          <button type="button" className={chip} onClick={() => setLang(lang === 'nl' ? 'en' : 'nl')} aria-label={t('lang.switchLabel')} lang={lang === 'nl' ? 'en' : 'nl'}>
+            {lang === 'nl' ? 'EN' : 'NL'}
           </button>
           <button
             type="button"
-            className={control}
+            className={chip}
             onClick={() => setTheme(next)}
             aria-label={t('theme.next', { current: t(themeKey[theme]), next: t(themeKey[next]) })}
             title={t('theme.current', { name: t(themeKey[theme]) })}
@@ -64,15 +66,15 @@ export function Layout({ children }: { children: ReactNode }) {
           </button>
         </div>
       </header>
-      <main id="main" className="mx-auto w-full max-w-2xl flex-1 px-4 pb-12">
+      <main id="main" className="relative mx-auto w-full max-w-2xl flex-1 px-5 pb-16 sm:px-6">
         {children}
       </main>
-      <footer className="mx-auto w-full max-w-2xl px-4 py-6 text-sm text-neutral-600 dark:text-neutral-400">
-        <nav className="mb-2 flex gap-4" aria-label="footer">
-          <Link to={paths.privacy} className="underline-offset-4 hover:underline">
+      <footer className="relative mx-auto w-full max-w-2xl border-t border-rule px-5 py-6 text-sm text-dim sm:px-6">
+        <nav className="mb-3 flex flex-wrap gap-x-5 gap-y-2 font-bold text-ink" aria-label="footer">
+          <Link to={paths.privacy} className={`rounded underline-offset-4 hover:underline ${focusRing}`}>
             {t('nav.privacy')}
           </Link>
-          <Link to={paths.about} className="underline-offset-4 hover:underline">
+          <Link to={paths.about} className={`rounded underline-offset-4 hover:underline ${focusRing}`}>
             {t('nav.about')}
           </Link>
         </nav>
