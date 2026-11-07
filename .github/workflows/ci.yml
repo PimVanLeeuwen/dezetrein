@@ -120,8 +120,10 @@ jobs:
       - run: echo "Publishing ${{ github.sha }} approved."
 
   # ==================== BUILD & PUSH IMAGES (main only) ====================
-  # Images are tagged :latest, :v<version> (from web/package.json) and :main-<sha>, for the
-  # amd64 NAS. Deploys pin a tag; nothing deploys by itself.
+  # Images are tagged :latest and :main-<sha>, for the amd64 NAS, plus :v<version> (from
+  # web/package.json) once, for the build that releases that version. A version tag never moves
+  # afterwards, so pinning it is a safe way to hold or roll back. Watchtower on the NAS follows
+  # :latest, so an approved publish goes live in its nightly run.
   images:
     name: Build & push (${{ matrix.service }})
     needs: [approve-publish]
@@ -137,12 +139,32 @@ jobs:
         service: [backend, web]
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Resolve version and image name
+      - name: Resolve version, image name and tags
         id: meta
+        env:
+          REPO: ${{ github.repository }}
+          SERVICE: ${{ matrix.service }}
+          SHA: ${{ github.sha }}
         run: |
-          echo "version=$(node -p "require('./web/package.json').version")" >> "$GITHUB_OUTPUT"
+          version=$(node -p "require('./web/package.json').version")
           # GHCR requires a lowercase namespace.
-          echo "image=ghcr.io/$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')-${{ matrix.service }}" >> "$GITHUB_OUTPUT"
+          image="ghcr.io/$(echo "$REPO" | tr '[:upper:]' '[:lower:]')-$SERVICE"
+          tags="$image:latest"$'\n'"$image:main-$SHA"
+          # The release job tags v<version> after this job; until then the version is new, and
+          # this build is the one that releases it.
+          if git ls-remote --exit-code --tags origin "refs/tags/v$version" >/dev/null; then
+            build="$version+${SHA:0:7}"
+          else
+            build="$version"
+            tags="$tags"$'\n'"$image:v$version"
+          fi
+          {
+            echo "image=$image"
+            echo "build=$build"
+            echo "tags<<EOF"
+            echo "$tags"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
       - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
       - uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
         with:
@@ -156,12 +178,11 @@ jobs:
           context: ./${{ matrix.service }}
           platforms: linux/amd64
           push: true
-          tags: |
-            ${{ steps.meta.outputs.image }}:latest
-            ${{ steps.meta.outputs.image }}:v${{ steps.meta.outputs.version }}
-            ${{ steps.meta.outputs.image }}:main-${{ github.sha }}
+          tags: ${{ steps.meta.outputs.tags }}
+          # The version /healthz reports: the release version, or version+commit for a build
+          # published without a new version.
           build-args: |
-            VERSION=${{ steps.meta.outputs.version }}
+            VERSION=${{ steps.meta.outputs.build }}
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
       # Image scanning is best-effort: it must not block a deploy whose images are already pushed.
